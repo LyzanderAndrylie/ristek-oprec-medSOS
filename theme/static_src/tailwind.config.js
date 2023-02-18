@@ -25,6 +25,7 @@ module.exports = {
          * Adjust the following line to match your project structure.
          */
         '../../**/templates/**/*.html',
+        '../../information/templates/index.html',
 
         /**
          * JS: If you use Tailwind CSS in JavaScript, uncomment the following lines and make sure
@@ -42,7 +43,11 @@ module.exports = {
         // '../../**/*.py'
     ],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                'primary-color' : '#01162d',
+            }
+        },
     },
     plugins: [
         /**

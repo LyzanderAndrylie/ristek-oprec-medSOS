@@ -2,9 +2,25 @@
 {% load static %}
 
 {% block meta %}
-<title>Beranda</title>
+<title>RISTEK MedSOS - Beranda</title>
+<script src="{% static 'information/script.js' %}" defer></script>
 {% endblock meta %}
 
 {% block content %}
-<h1>Hello World!</h1>
+<div id="content" class="p-8">
+    <div class="welcome-message text-3xl text-center font-bold mb-8">
+        Welcome back,<br>
+        <span class="text-cyan-200">@user_id</span>
+    </div>
+    <div class="feature-container flex flex-wrap justify-center gap-4 mb-8">
+        <textarea placeholder="What's happening?" name="post" id="post" cols="30" rows="8"
+            class="bg-primary-color rounded p-2" required></textarea>
+        <div class="buttons flex flex-col gap-4 grow max-w-[250px] justify-end">
+            <button class="border p-2">Edit Close Friends</button>
+            <button class="border p-2">Post</button>
+        </div>
+    </div>
+    <div id="tweets-container" class="flex justify-center">
+    </div>
+</div>
 {% endblock content %}

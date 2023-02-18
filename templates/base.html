@@ -7,18 +7,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% tailwind_css %}
+    <script src="https://cdn.tailwindcss.com"></script>
     {% block meta %} {% endblock meta %}
-
-    <style>
-        * {
-            border: 1px solid red;
-        }
-    </style>
 </head>
 
 
-<body class="min-h-screen">
-    
+<body class="min-h-screen bg-primary-color text-white font-sans">
+    <div id="header" class="flex justify-between items-center px-8 py-4">
+        <div class="logo-container flex items-center gap-4">
+            <div class="logo">Logo</div>
+            <div class="name font-bold text-xl">RISTEK MedSOS</div>
+        </div>
+        <div class="profile-container flex items-center gap-4">
+            <div class="profile-picture">Picture</div>
+            <div class="profile-name">Name</div>
+        </div>
+    </div>
     {% block content %} {% endblock content %}
 </body>
 
