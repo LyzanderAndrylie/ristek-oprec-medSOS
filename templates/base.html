@@ -16,12 +16,16 @@
 <body class="min-h-screen bg-primary-color text-white font-sans">
     <div id="header" class="flex justify-between items-center px-8 py-4">
         <div class="logo-container flex items-center gap-4">
-            <div class="logo">Logo</div>
-            <div class="name font-bold text-xl">RISTEK MedSOS</div>
+            <div class="logo"><a href="{% url 'information:index' %}">Logo</a></div>
+            <div class="name font-bold text-xl"><a href="{% url 'information:index' %}">RISTEK MedSOS</a></div>
         </div>
         <div class="profile-container flex items-center gap-4">
+            {% if user.is_active %}
             <div class="profile-picture">Picture</div>
             <div class="profile-name">Name</div>
+            {% else %}
+            <div class="register"><a href="{% url 'authentication_feature:register_page' %}">Register</a></div>
+            {% endif %}
         </div>
     </div>
     {% block content %} {% endblock content %}
