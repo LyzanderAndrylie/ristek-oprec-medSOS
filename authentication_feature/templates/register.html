@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>RISTEK MedSOS - Registration</title>
+<script src="{% static 'authentication_feature/script.js' %}" defer></script>
+{% endblock meta %}
+
+{% block content %}
+<div id="register" class="border flex justify-center items-center min-h-[60vh]">
+    <form id="register-form" method="post" class="border p-4"
+        data-posturl="{% url 'authentication_feature:register_ajax' %}">
+        {% csrf_token %}
+        <div class="username">
+            <label for="{{ form.username.id_for_label }}">Username</label><br>
+            <span class="text-black">{{ form.username }}</span>
+        </div>
+        <div class="password1">
+            <label for="{{ form.password1.id_for_label }}">Password</label><br>
+            <span class="text-black">{{ form.password1 }}</span>
+        </div>
+        <div class="password2">
+            <label for="{{ form.password2.id_for_label }}">Password Confirmation</label><br>
+            <span class="text-black">{{ form.password2 }}</span>
+        </div>
+        <button type="submit" id="submit">Register</button>
+    </form>
+</div>
+{% endblock content %}
