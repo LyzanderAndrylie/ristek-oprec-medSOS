@@ -6,7 +6,7 @@ function addTweetPost() {
     
     if (tweetContainer) {
         tweetContainer.innerHTML += `
-        <div class="tweet-post border max-w-[520px] p-4">
+        <div class="tweet-post border max-w-[520px] p-4 mb-4">
                 <div class="information flex gap-4 mb-4">
                     <div class="profile-picture">Picture</div>
                     <div class="profile-name">Name</div>
