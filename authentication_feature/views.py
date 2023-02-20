@@ -45,6 +45,7 @@ def login_ajax(request):
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(username=username, password=password)
+
     if user is not None:
         if user.is_active:
             login(request, user)
@@ -57,7 +58,6 @@ def login_ajax(request):
                 "status": False,
                 "message": "Failed to Login, Account Disabled."
             }, status=401)
-
     else:
         return JsonResponse({
             "status": False,
@@ -72,12 +72,15 @@ def logout_ajax(request):
         "message": "Successfully Logout In!"
     }, status=200)
 
+
 def profile_page(request, username):
-    if User.objects.filter(username = username).exists():
-        context = {"user": request.user}
+    if User.objects.filter(username=username).exists():
+        user = User.objects.get(username=username)
+        context = {"profile_user": user}
         return render(request, "profile.html", context=context)
     else:
         return render(request, "not-found.html")
+
 
 @login_required
 def update_profile_ajax(request):
@@ -101,4 +104,3 @@ def update_profile_ajax(request):
         "status": False,
         "message": "Failed to Update Profile."
     }, status=401)
-

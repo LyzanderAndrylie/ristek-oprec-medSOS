@@ -11,10 +11,10 @@
     <div class="profile-container border p-4">
         <div class="user-profile flex justify-center items-center gap-4 mb-4">
             <img src="{{ user.profile.avatar.url }}" alt="avatar" class="rounded-full max-w-[80px]">
-            <span class="flex items-center text-cyan-200 text-3xl text-center font-bold">@{{ user.username }}</span>
+            <span class="flex items-center text-cyan-200 text-3xl text-center font-bold">@{{ profile_user.username }}</span>
         </div>
         <div class="p-4 border" >
-            {{ user.profile.bio|default:"Looks like you don't have anything in bio yet" }}
+            {{ profile_user.profile.bio|default:"Nothing in bio yet" }}
         </div>
     </div>
 </div>
