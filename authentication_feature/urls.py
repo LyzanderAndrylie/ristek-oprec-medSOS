@@ -9,4 +9,5 @@ urlpatterns = [
     path('login/', login_page, name="login_page"),
     path('login/ajax', login_ajax, name="login_ajax"),
     path('logout/', logout_ajax, name="logout_ajax"),
+    path('profile/<str:username>', profile_page, name='profile_page'),
 ]

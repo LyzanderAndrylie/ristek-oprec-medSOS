@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>RISTEK MedSOS - Registration</title>
+<script src="{% static 'authentication_feature/script.js' %}" defer></script>
+{% endblock meta %}
+
+{% block content %}
+<div id="profile" class="flex justify-center border min-h-[80vh]">
+    <div class="profile-container border p-4">
+        <div class="user-profile flex justify-center items-center gap-4 mb-4">
+            <img src="{{ user.profile.avatar.url }}" alt="avatar" class="rounded-full max-w-[80px]">
+            <span class="flex items-center text-cyan-200 text-3xl text-center font-bold">@{{ user.username }}</span>
+        </div>
+        <div class="p-4 border" >
+            {{ user.profile.bio|default:"Looks like you don't have anything in bio yet" }}
+        </div>
+    </div>
+</div>
+{% endblock content %}
