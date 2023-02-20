@@ -23,7 +23,7 @@
             {% if user.is_active %}
             <div class="profile-picture"><a
                     href="{% url 'authentication_feature:profile_page' username=user.username %}"><img
-                        src="{{ user.profile.avatar.url }}" alt="avatar" class="rounded-full max-w-[30px]"></a></div>
+                        src="{{ user.profile.avatar.url }}" alt="avatar" class="rounded-full" width="30px"></a></div>
             <div class="profile-name"><a
                     href="{% url 'authentication_feature:profile_page' username=user.username %}">{{ user.username }}</a></div>
             {% else %}
