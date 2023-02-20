@@ -2,13 +2,13 @@
 {% load static %}
 
 {% block meta %}
-<title>RISTEK MedSOS - Registration</title>
+<title>RISTEK MedSOS - Login</title>
 <script src="{% static 'authentication_feature/script.js' %}" defer></script>
 {% endblock meta %}
 
 {% block content %}
-<div id="register" class="border flex justify-center items-center min-h-[60vh]">
-    <form id="register-form" method="post" class="border p-4"
+<div id="login" class="border flex justify-center items-center min-h-[60vh]">
+    <form id="login-form" method="post" class="border p-4"
         data-posturl="{% url 'authentication_feature:login_ajax' %}" data-redirecturl="{% url 'information:index' %}">
         {% csrf_token %}
         <div class="username">
