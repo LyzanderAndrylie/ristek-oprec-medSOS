@@ -9,6 +9,7 @@ $("#register-form").submit(function (e) {
         data: $(this).serialize(),
         success: () => {
             console.log("success");
+            location.assign(form?.dataset.redirecturl);
         }
     })
     $("[name=csrfmiddlewaretoken]").removeAttr("disabled");
