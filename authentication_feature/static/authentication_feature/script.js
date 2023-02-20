@@ -1,7 +1,7 @@
 // @ts-nocheck
-const form = document.getElementById('register-form');
+const form = document.querySelector("form");
 
-$("#register-form").submit(function (e) {
+$("form").submit(function (e) {
     e.preventDefault();
     $.ajax({
         type: "POST",
