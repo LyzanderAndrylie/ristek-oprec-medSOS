@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% tailwind_css %}
     <script src="https://cdn.tailwindcss.com" async></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" defer></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" defer></script> -->
     {% block meta %} {% endblock meta %}
 </head>
 
@@ -23,7 +23,7 @@
             {% if user.is_active %}
             <div class="profile-picture"><a
                     href="{% url 'authentication_feature:profile_page' username=user.username %}"><img
-                        src="{{ user.profile.avatar.url }}" alt="avatar" class="rounded-full" width="30px"></a></div>
+                        src="{{ user.profile.avatar.url }}" alt="avatar" class="rounded-full" width="30"></a></div>
             <div class="profile-name"><a
                     href="{% url 'authentication_feature:profile_page' username=user.username %}">{{ user.username }}</a></div>
             {% else %}

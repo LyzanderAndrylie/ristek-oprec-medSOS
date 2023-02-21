@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>RISTEK MedSOS - Login</title>
+<script src="{% static 'authentication_feature/script.js' %}" defer></script>
+{% endblock meta %}
+
+{% block content %}
+<div id="edit-profile" class="border flex justify-center items-center min-h-[60vh]">
+    <form id="login-form" method="post" class="border p-4"
+        data-posturl="{% url 'authentication_feature:update_profile_ajax' username=user.username %}"
+        data-redirecturl="{% url 'authentication_feature:profile_page' username=user.username %}">
+        {% csrf_token %}
+        <div class="avatar">
+            <label for="username">Change Avatar</label><br>
+            {{ update_profile_form.avatar }}
+        </div>
+        <div class="bio">
+            <label for="password">Change bio</label><br>
+            {{ update_profile_form.bio }}
+        </div>
+        <button type="submit" id="submit">Update</button>
+    </form>
+</div>
+{% endblock content %}

@@ -8,12 +8,17 @@
 
 {% block content %}
 <div id="profile" class="flex justify-center border min-h-[80vh]">
-    <div class="profile-container border p-4">
-        <div class="user-profile flex justify-center items-center gap-4 mb-4">
-            <img src="{{ user.profile.avatar.url }}" alt="avatar" class="rounded-full" width="80px">
-            <span class="flex items-center text-cyan-200 text-3xl text-center font-bold">@{{ profile_user.username }}</span>
+    <div class="profile-container border p-4 w-[750px] shrink">
+        <div class="user-profile flex flex-wrap justify-between items-center gap-4 mb-4">
+            <div class="flex justify-between items-center gap-4">
+                <div class="image"><img src="{{ profile_user.profile.avatar.url }}" alt="avatar" class="rounded-full" width="80"></div>
+                <span class="flex items-center text-cyan-200 text-3xl text-center font-bold">@{{ profile_user.username }}</span>
+            </div>
+            {% if active_user %}
+            <a href="{% url 'authentication_feature:edit_profile_page' username=user.username %}" class="border grow p-2 max-w-[100px] text-center">Edit Profile</a>
+            {% endif %}
         </div>
-        <div class="p-4 border">
+        <div class="bio p-4 border max-w-[768px]">
             {{ profile_user.profile.bio|default:"Nothing in bio yet" }}
         </div>
     </div>

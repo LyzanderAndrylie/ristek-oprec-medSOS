@@ -77,13 +77,25 @@ def profile_page(request, username):
     if User.objects.filter(username=username).exists():
         user = User.objects.get(username=username)
         context = {"profile_user": user}
+
+        if username == request.user.username:
+            context["active_user"] = request.user
+
         return render(request, "profile.html", context=context)
     else:
         return render(request, "not-found.html")
 
+@login_required
+def edit_profile_page(request, username):
+    if request.user.username == username:
+        updateProfileForm = UpdateProfileForm()
+        context = {"active_user": request.user, "update_profile_form": updateProfileForm}
+        return render(request, "edit-profile.html", context)
+    else:
+        return render(request, "not-found.html")
 
 @login_required
-def update_profile_ajax(request):
+def update_profile_ajax(request, username):
     if request.method == "POST":
         profile_form = UpdateProfileForm(
             request.POST, request.FILES, instance=request.user.profile)
