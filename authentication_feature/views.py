@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
@@ -64,6 +64,9 @@ def login_ajax(request):
             "message": "Failed to Login, check your email/password."
         }, status=401)
 
+def logout_user(request):
+    logout(request)
+    return redirect('information:index')
 
 def logout_ajax(request):
     logout(request)
