@@ -38,10 +38,10 @@ def add_tweet(request):
 def view_tweets(request):
     # checking for the parameters from the URL
     if request.query_params:
-        tweets = Tweet.objects.filter(**request.query_params.dict())
+        tweets = Tweet.objects.filter(**request.query_params.dict()).order_by('-post_date')
     else:
-        tweets = Tweet.objects.all()
- 
+        tweets = Tweet.objects.all().order_by('-post_date')
+    
     # if there is something in items else raise error
     if tweets:
         serializer = TweetSerializer(tweets, many=True)
