@@ -20,8 +20,11 @@
             <button class="border p-2">Post</button>
         </div>
     </div>
-    <div id="tweets-container" class="flex flex-col items-center gap-4"
-        data-gettweeturl="{% url 'tweet_api:view_tweets' %}" data-getuserurl="{% url 'authentication_feature:user_data' pk=0 %}">
+    
+    <div class="tweets-container flex justify-center border">
+        <div id="tweets" class="flex flex-col gap-4 w-[520px] border"
+            data-gettweeturl="{% url 'tweet_api:view_tweets' %}" data-getuserurl="{% url 'authentication_feature:user_data' pk=0 %}">
+        </div>
     </div>
 </div>
 {% endblock content %}

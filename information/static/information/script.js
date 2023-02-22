@@ -1,5 +1,5 @@
 async function getTweets() {
-    const tweetContainer = document.getElementById("tweets-container");
+    const tweetContainer = document.getElementById("tweets");
     const response = await fetch(`${tweetContainer?.dataset.gettweeturl}`, {
         method: "GET",
     });
@@ -9,7 +9,7 @@ async function getTweets() {
 }
 
 async function getUserDataFromPk(pk) {
-    const tweetContainer = document.getElementById("tweets-container");
+    const tweetContainer = document.getElementById("tweets");
     const response = await fetch(`${tweetContainer?.dataset.getuserurl?.replace("0", pk)}`, {
         method: "GET"
     });
@@ -20,12 +20,12 @@ async function getUserDataFromPk(pk) {
 
 
 function addTweetPost(tweet, userData) {
-    const tweetContainer = document.getElementById("tweets-container");
+    const tweetContainer = document.getElementById("tweets");
 
     if (tweetContainer) {
         tweetContainer.innerHTML += `
-        <div class="tweet-post border w-[520px] p-4">
-                <div class="information flex gap-4 mb-4">
+        <div class="tweet-post border p-4">
+                <div class="information flex flex-wrap gap-4 mb-4">
                     <div class="profile-picture">
                         <a href="${userData.profile_path}">
                             <img src="${userData.avatar_path}" width="30" class="rounded-full">

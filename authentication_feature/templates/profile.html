@@ -12,18 +12,24 @@
     <div class="profile-container border p-4 w-[750px] shrink">
         <div class="user-profile flex flex-wrap justify-between items-center gap-4 mb-4">
             <div class="flex justify-between items-center gap-4">
-                <div class="image"><img src="{{ profile_user.profile.avatar.url }}" alt="avatar" class="rounded-full" width="80"></div>
-                <span class="flex items-center text-cyan-200 text-3xl text-center font-bold">@{{ profile_user.username }}</span>
+                <div class="image"><img src="{{ profile_user.profile.avatar.url }}" alt="avatar" class="rounded-full"
+                        width="80"></div>
+                <span class="flex items-center text-cyan-200 text-3xl text-center font-bold">@{{ profile_user.username
+                    }}</span>
             </div>
             {% if active_user %}
-            <a href="{% url 'authentication_feature:edit_profile_page' username=user.username %}" class="border grow p-2 max-w-[100px] text-center">Edit Profile</a>
+            <a href="{% url 'authentication_feature:edit_profile_page' username=user.username %}"
+                class="border grow p-2 max-w-[100px] text-center">Edit Profile</a>
             {% endif %}
         </div>
-        <div class="bio p-4 border max-w-[768px]">
+        <div class="bio p-4 border max-w-[768px] m-4">
             {{ profile_user.profile.bio|default:"Nothing in bio yet" }}
         </div>
-        <div id="tweets-container" class="flex flex-col items-center gap-4"
-            data-gettweeturl="{% url 'tweet_api:view_tweets' %}?user={{ profile_user.pk }}" data-getuserurl="{% url 'authentication_feature:user_data' pk=profile_user.pk %}">
+        <div class="tweets-container flex justify-center border">
+            <div id="tweets" class="flex flex-col items-center gap-4"
+                data-gettweeturl="{% url 'tweet_api:view_tweets' %}?user={{ profile_user.pk }}"
+                data-getuserurl="{% url 'authentication_feature:user_data' pk=profile_user.pk %}">
+            </div>
         </div>
     </div>
 </div>
