@@ -21,8 +21,8 @@
         </div>
     </div>
     
-    <div class="tweets-container flex justify-center border">
-        <div id="tweets" class="flex flex-col gap-4 w-[520px] border"
+    <div class="tweets-container flex justify-center">
+        <div id="tweets" class="flex flex-col gap-4 w-[520px]"
             data-gettweeturl="{% url 'tweet_api:view_tweets' %}" data-getuserurl="{% url 'authentication_feature:user_data' pk=0 %}">
         </div>
     </div>

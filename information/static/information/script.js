@@ -5,6 +5,8 @@ async function getTweets() {
     });
     const data = await response.json();
 
+    console.log(data);
+
     return data;
 }
 
@@ -25,23 +27,23 @@ function addTweetPost(tweet, userData) {
     if (tweetContainer) {
         tweetContainer.innerHTML += `
         <div class="tweet-post border p-4">
-                <div class="information flex flex-wrap gap-4 mb-4">
-                    <div class="profile-picture">
-                        <a href="${userData.profile_path}">
-                            <img src="${userData.avatar_path}" width="30" class="rounded-full">
-                        </a>
-                    </div>
-                    <div class="profile-name">
-                        <a href="${userData.profile_path}">
-                            ${userData.username}
-                        </a>
-                    </div>
-                    <div class="date">${tweet.post_date}</div>
+            <div class="information flex flex-wrap gap-4 mb-4">
+                <div class="profile-picture">
+                    <a href="${userData.profile_path}">
+                        <img src="${userData.avatar_path}" width="30" class="rounded-full">
+                    </a>
                 </div>
-                <div class="message max-w-[520px]">
-                    ${tweet.content}
+                <div class="profile-name">
+                    <a href="${userData.profile_path}">
+                        ${userData.username}
+                    </a>
                 </div>
+                <div class="date">${tweet.post_date}</div>
             </div>
+            <div class="message max-w-[520px]">
+                ${tweet.content}
+            </div>
+        </div>
         `
     }
 }
@@ -51,12 +53,11 @@ async function showTweets() {
     try {
         const data = await getTweets();
 
-        data.forEach(async (tweet) => {
+        for (const tweet of data) {        
             const userData = await getUserDataFromPk(tweet.user); 
             addTweetPost(tweet, userData);
-        });
-
-
+        }
+        
     } catch (error) {
         console.log(error);
     }

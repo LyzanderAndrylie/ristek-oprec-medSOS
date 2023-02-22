@@ -14,15 +14,14 @@
             <div class="flex justify-between items-center gap-4">
                 <div class="image"><img src="{{ profile_user.profile.avatar.url }}" alt="avatar" class="rounded-full"
                         width="80"></div>
-                <span class="flex items-center text-cyan-200 text-3xl text-center font-bold">@{{ profile_user.username
-                    }}</span>
+                <span class="flex items-center text-cyan-200 text-3xl text-center font-bold">@{{ profile_user.username }}</span>
             </div>
             {% if active_user %}
             <a href="{% url 'authentication_feature:edit_profile_page' username=user.username %}"
                 class="border grow p-2 max-w-[100px] text-center">Edit Profile</a>
             {% endif %}
         </div>
-        <div class="bio p-4 border max-w-[768px] m-4">
+        <div class="bio p-4 border max-w-[768px] mb-4">
             {{ profile_user.profile.bio|default:"Nothing in bio yet" }}
         </div>
         <div class="tweets-container flex justify-center border">
