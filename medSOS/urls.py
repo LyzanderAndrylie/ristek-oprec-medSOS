@@ -24,4 +24,5 @@ urlpatterns = [
     path("__reload__/", include("django_browser_reload.urls")),
     path('', include('information.urls')),
     path('', include('authentication_feature.urls')),
+    path('api/tweet/', include('tweet_api.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

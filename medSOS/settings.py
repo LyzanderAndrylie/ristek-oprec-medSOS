@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django_browser_reload',
     'information',
     'authentication_feature',
+    'rest_framework',
+    'tweet_api',
 ]
 
 MIDDLEWARE = [
