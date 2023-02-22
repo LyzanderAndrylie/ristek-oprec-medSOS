@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 from authentication_feature.forms import UpdateProfileForm
 from django.contrib.auth.models import User
@@ -64,9 +65,11 @@ def login_ajax(request):
             "message": "Failed to Login, check your email/password."
         }, status=401)
 
+
 def logout_user(request):
     logout(request)
     return redirect('information:index')
+
 
 def logout_ajax(request):
     logout(request)
@@ -88,14 +91,17 @@ def profile_page(request, username):
     else:
         return render(request, "not-found.html")
 
+
 @login_required
 def edit_profile_page(request, username):
     if request.user.username == username:
         updateProfileForm = UpdateProfileForm()
-        context = {"active_user": request.user, "update_profile_form": updateProfileForm}
+        context = {"active_user": request.user,
+                   "update_profile_form": updateProfileForm}
         return render(request, "edit-profile.html", context)
     else:
         return render(request, "not-found.html")
+
 
 @login_required
 def update_profile_ajax(request, username):
@@ -119,3 +125,18 @@ def update_profile_ajax(request, username):
         "status": False,
         "message": "Failed to Update Profile."
     }, status=401)
+
+
+def user_data(request, pk):
+    if User.objects.filter(pk=pk).exists():
+        user = User.objects.get(pk=pk)
+        user_data = {"username": user.username,
+                     "avatar_path": user.profile.avatar.url,
+                     "profile_path":reverse("authentication_feature:profile_page", args=(user.username,))}
+        return JsonResponse(user_data, status=200)
+
+    else:
+        return JsonResponse({
+            "status": False,
+            "message": "User doesn't exist."
+        }, status=401)

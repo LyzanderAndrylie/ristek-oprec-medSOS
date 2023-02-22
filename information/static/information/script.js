@@ -1,24 +1,65 @@
-/**
- * Adds Tweet-Post in Tweet container
- */
-function addTweetPost() {
+async function getTweets() {
     const tweetContainer = document.getElementById("tweets-container");
-    
+    const response = await fetch(`${tweetContainer?.dataset.gettweeturl}`, {
+        method: "GET",
+    });
+    const data = await response.json();
+
+    return data;
+}
+
+async function getUserDataFromPk(pk) {
+    const tweetContainer = document.getElementById("tweets-container");
+    const response = await fetch(`${tweetContainer?.dataset.getuserurl?.replace("0", pk)}`, {
+        method: "GET"
+    });
+    const data = await response.json();
+
+    return data;
+}
+
+
+function addTweetPost(tweet, userData) {
+    const tweetContainer = document.getElementById("tweets-container");
+
     if (tweetContainer) {
         tweetContainer.innerHTML += `
-        <div class="tweet-post border max-w-[520px] p-4 mb-4">
+        <div class="tweet-post border w-[520px] p-4">
                 <div class="information flex gap-4 mb-4">
-                    <div class="profile-picture">Picture</div>
-                    <div class="profile-name">Name</div>
-                    <div class="date">01/01/2023</div>
+                    <div class="profile-picture">
+                        <a href="${userData.profile_path}">
+                            <img src="${userData.avatar_path}" width="30" class="rounded-full">
+                        </a>
+                    </div>
+                    <div class="profile-name">
+                        <a href="${userData.profile_path}">
+                            ${userData.username}
+                        </a>
+                    </div>
+                    <div class="date">${tweet.post_date}</div>
                 </div>
                 <div class="message max-w-[520px]">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempus sit amet lectus ut finibus. Ut vel
-                    facilisis enim. Donec porta risus vel nisi rutrum mollis.
+                    ${tweet.content}
                 </div>
             </div>
         `
     }
 }
 
-addTweetPost();
+
+async function showTweets() {
+    try {
+        const data = await getTweets();
+
+        data.forEach(async (tweet) => {
+            const userData = await getUserDataFromPk(tweet.user); 
+            addTweetPost(tweet, userData);
+        });
+
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+showTweets();

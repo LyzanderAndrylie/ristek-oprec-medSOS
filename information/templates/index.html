@@ -20,7 +20,8 @@
             <button class="border p-2">Post</button>
         </div>
     </div>
-    <div id="tweets-container" class="flex justify-center">
+    <div id="tweets-container" class="flex flex-col items-center gap-4"
+        data-gettweeturl="{% url 'tweet_api:view_tweets' %}" data-getuserurl="{% url 'authentication_feature:user_data' pk=0 %}">
     </div>
 </div>
 {% endblock content %}
