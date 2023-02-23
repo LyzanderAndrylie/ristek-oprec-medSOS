@@ -21,7 +21,7 @@ def ApiOverview(request):
 
 @api_view(['POST'])
 def add_tweet(request):
-    if request.user.pk == request.data["user"]:
+    if str(request.user.pk) == request.data["user"]:
         tweet = TweetSerializer(data=request.data)
     
         # validating for already existing data

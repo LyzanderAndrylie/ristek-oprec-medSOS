@@ -13,21 +13,23 @@
         <span class="text-cyan-200">@user_id</span>
     </div>
     <div class="feature-container">
-        <form id="post-tweet" method="POST" class="flex flex-wrap justify-center gap-4 mb-8" data-posturl="{% url 'tweet_api:add_tweet' %}">
+        <form id="post-tweet" method="POST" class="flex flex-wrap justify-center gap-4 mb-8"
+            data-posturl="{% url 'tweet_api:add_tweet' %}"
+            data-userpk="{{ user.pk }}">
             {% csrf_token %}
-            <textarea placeholder="What's happening?" name="content" id cols="30" rows="8"
+            <textarea placeholder="What's happening?" name="content" cols="30" rows="8"
                 class="bg-primary-color rounded p-2" required></textarea>
             <div class="buttons flex flex-col gap-4 grow max-w-[250px] justify-end">
                 <button class="border p-2">Edit Close Friends</button>
                 <button type="submit" id="submit" class="border p-2">Post</button>
             </div>
-            <input type="hidden" value="{{ user.pk }}" name="user">
+            <!-- <input type="hidden" value="{{ user.pk }}" name="user"> -->
         </form>
     </div>
-    
+
     <div class="tweets-container flex justify-center">
-        <div id="tweets" class="flex flex-col gap-4 w-[520px]"
-            data-gettweeturl="{% url 'tweet_api:view_tweets' %}" data-getuserurl="{% url 'authentication_feature:user_data' pk=0 %}">
+        <div id="tweets" class="flex flex-col gap-4 w-[520px]" data-gettweeturl="{% url 'tweet_api:view_tweets' %}"
+            data-getuserurl="{% url 'authentication_feature:user_data' pk=0 %}">
         </div>
     </div>
 </div>

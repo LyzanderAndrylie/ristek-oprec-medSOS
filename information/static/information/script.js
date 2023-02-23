@@ -5,8 +5,6 @@ async function getTweets() {
     });
     const data = await response.json();
 
-    console.log(data);
-
     return data;
 }
 
@@ -53,14 +51,45 @@ async function showTweets() {
     try {
         const data = await getTweets();
 
-        for (const tweet of data) {        
-            const userData = await getUserDataFromPk(tweet.user); 
+        for (const tweet of data) {
+            const userData = await getUserDataFromPk(tweet.user);
             addTweetPost(tweet, userData);
         }
-        
+
     } catch (error) {
         console.log(error);
     }
 }
 
+async function postTweet() {
+    const form = document.getElementById("post-tweet");
+
+    form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const userpk = form.dataset.userpk;
+        const content = document.querySelector("[name='content']").value;
+
+        try {
+            const response = await fetch(`${form?.dataset.posturl}`, {
+                method: "POST",
+                body: JSON.stringify({
+                    "user": userpk,
+                    "content": content
+                }),
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                    'Content-Type': 'application/json'
+                },
+            });
+            const data = await response.json();
+            
+            // TODO: remove
+            console.log(data);
+        } catch (error) {
+        }
+    });
+}
 showTweets();
+postTweet();
