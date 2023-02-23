@@ -21,7 +21,7 @@
                 class="border grow p-2 max-w-[100px] text-center">Edit Profile</a>
             {% endif %}
         </div>
-        <div class="bio p-4 border max-w-[768px] mb-4">
+        <div class="bio p-4 border max-w-[768px] min-h-[128px] mb-4">
             {{ profile_user.profile.bio|default:"Nothing in bio yet" }}
         </div>
         <div class="tweets-container flex justify-center border">
