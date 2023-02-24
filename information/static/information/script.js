@@ -1,16 +1,34 @@
+const URL = {
+    getTweets: "/api/tweet/all/",
+    getTweetsWithParam: (param) => {
+        return `/api/tweet/all/?${param}`
+    },
+    postTweet: "/api/tweet/create/",
+    deleteTweet: "/api/tweet/delete/0/",
+    userData: "/user-data/0/",
+}
+
 async function getTweets() {
-    const tweetContainer = document.getElementById("tweets");
-    const response = await fetch(`${tweetContainer?.dataset.gettweeturl}`, {
+    const param = document.getElementById("tweets").dataset.param
+    let getURL;
+
+    if (param) {
+        getURL = URL.getTweetsWithParam(param);
+    } else {
+        getURL = URL.getTweets;
+    }
+
+    const response = await fetch(getURL, {
         method: "GET",
     });
+
     const data = await response.json();
 
     return data;
 }
 
 async function getUserDataFromPk(pk) {
-    const tweetContainer = document.getElementById("tweets");
-    const response = await fetch(`${tweetContainer?.dataset.getuserurl?.replace("0", pk)}`, {
+    const response = await fetch(`${URL.userData.replace("0", pk)}`, {
         method: "GET"
     });
     const data = await response.json();
@@ -119,7 +137,7 @@ async function postTweet() {
         const content = document.querySelector("[name='content']").value;
 
         try {
-            const response = await fetch(`${form?.dataset.posturl}`, {
+            const response = await fetch(`${URL.postTweet}`, {
                 method: "POST",
                 body: JSON.stringify({
                     "user": userpk,
@@ -143,8 +161,7 @@ async function deleteTweet(pk) {
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     try {
-        console.log(`${form?.dataset.deleteurl.replace("0", pk)}`);
-        const response = await fetch(`${form?.dataset.deleteurl.replace("0", pk)}`, {
+        const response = await fetch(`${URL.deleteTweet.replace("0", pk)}`, {
             method: "DELETE",
             body: JSON.stringify({
                 "user": userpk,

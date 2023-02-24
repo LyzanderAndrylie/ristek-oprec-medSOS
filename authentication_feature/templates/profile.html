@@ -26,15 +26,15 @@
         </div>
         <div class="tweets-container flex justify-center" data-userpk="{{ user.pk }}">
             <div id="tweets" class="flex flex-col gap-4 w-full"
-                data-gettweeturl="{% url 'tweet_api:view_tweets' %}?user={{ profile_user.pk }}"
-                data-getuserurl="{% url 'authentication_feature:user_data' pk=profile_user.pk %}">
+                data-param="user={{ profile_user.pk }}">
             </div>
         </div>
-        <form class="hidden" data-deleteurl = "{% url 'tweet_api:delete_tweet' pk=0 %}">
+        <form class="hidden">
             {% csrf_token %}
         </form>
     </div>
 </div>
+
 <!-- Modal -->
 <div id="modal" class="hidden">
     <div id="modal-container" class=" bg-slate-800 bg-opacity-50 flex justify-center items-center fixed inset-0">
