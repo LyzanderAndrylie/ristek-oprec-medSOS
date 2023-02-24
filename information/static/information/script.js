@@ -119,5 +119,33 @@ async function postTweet() {
     });
 }
 
+function setModal() {
+    const modal = document.getElementById("modal")
+    const modalContainer = document.getElementById("modal-container")
+    const openModalButton = document.getElementById("open-modal")
+    const cancelButton = document.getElementById("cancel-button")
+    const okButton = document.getElementById("ok-button")
+
+    openModalButton.addEventListener('click', () => {
+        modal.classList.toggle("hidden");
+    })
+
+    cancelButton.addEventListener("click", () => {
+        modal.classList.toggle("hidden");
+    })
+
+    okButton.addEventListener("click", () => {
+
+    })
+
+    window.addEventListener("click", (e) => {
+        if (e.target == modalContainer) {
+            modal.classList.toggle("hidden");
+        }
+    })
+
+}
+
 showTweets();
 postTweet();
+setModal();
