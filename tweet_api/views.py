@@ -53,7 +53,6 @@ def view_tweets(request):
 def edit_tweet(request, pk):
     if request.user.pk == request.data["user"]:
         tweet = Tweet.objects.get(pk=pk)
-        request.data["modified"] = True;
         data = TweetSerializer(instance=tweet, data=request.data)
 
         if data.is_valid():
@@ -64,7 +63,7 @@ def edit_tweet(request, pk):
 
 @api_view(['DELETE'])
 def delete_tweet(request, pk):
-    if request.user.pk == request.data["user"]:
+    if str(request.user.pk) == request.data["user"]:
         tweet = get_object_or_404(Tweet, pk=pk)
         tweet.delete()
         return Response(status=status.HTTP_202_ACCEPTED)
