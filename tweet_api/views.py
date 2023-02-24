@@ -63,6 +63,7 @@ def edit_tweet(request, pk):
 
 @api_view(['DELETE'])
 def delete_tweet(request, pk):
+    print(request.data)
     if str(request.user.pk) == request.data["user"]:
         tweet = get_object_or_404(Tweet, pk=pk)
         tweet.delete()

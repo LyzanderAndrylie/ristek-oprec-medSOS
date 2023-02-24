@@ -21,7 +21,7 @@ async function getUserDataFromPk(pk) {
 async function addTweetPost(tweet) {
     const tweetContainer = document.getElementById("tweets");
     const userData = await getUserDataFromPk(tweet.user);
-    const userpk = document.getElementById("post-tweet").dataset.userpk;
+    const userpk = document.querySelector(".tweets-container")?.dataset.userpk;
 
     tweetContainer?.insertAdjacentHTML("beforeend",
         `
@@ -47,21 +47,14 @@ async function addTweetPost(tweet) {
     );
 
     if (tweet.user === +userpk) {
-        const information = document.querySelector(`[data-id="${tweet.id}"] .information`);
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete"
-        deleteButton.classList.add("border", "p-1", "open-modal");
-        deleteButton.setAttribute("data-id", tweet.id);
-        information.insertAdjacentElement("beforeend", deleteButton);
-
-        deleteTweetModal(tweet.id);
+        createDeleteAndEditButton(tweet);
     }
 }
 
 async function addNewTweetPost(tweet) {
     const tweetContainer = document.getElementById("tweets");
     const userData = await getUserDataFromPk(tweet.user);
-    const userpk = document.getElementById("post-tweet").dataset.userpk;
+    const userpk = document.querySelector(".tweets-container")?.dataset.userpk;
 
     tweetContainer?.insertAdjacentHTML("afterbegin",
         `
@@ -87,15 +80,19 @@ async function addNewTweetPost(tweet) {
     );
 
     if (tweet.user === +userpk) {
-        const information = document.querySelector(`[data-id="${tweet.id}"] .information`);
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete"
-        deleteButton.classList.add("border", "p-1", "open-modal");
-        deleteButton.setAttribute("data-id", tweet.id);
-        information.insertAdjacentElement("beforeend", deleteButton);
-
-        deleteTweetModal(tweet.id);
+        createDeleteAndEditButton(tweet);
     }
+}
+
+function createDeleteAndEditButton(tweet) {
+    const information = document.querySelector(`[data-id="${tweet.id}"] .information`);
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete"
+    deleteButton.classList.add("border", "p-1", "open-modal");
+    deleteButton.setAttribute("data-id", tweet.id);
+    information.insertAdjacentElement("beforeend", deleteButton);
+
+    deleteTweetModal(tweet.id);
 }
 
 async function showTweets() {
@@ -118,7 +115,7 @@ async function postTweet() {
         e.preventDefault();
 
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        const userpk = form.dataset.userpk;
+        const userpk = document.querySelector(".tweets-container")?.dataset.userpk;
         const content = document.querySelector("[name='content']").value;
 
         try {
@@ -141,11 +138,12 @@ async function postTweet() {
 }
 
 async function deleteTweet(pk) {
-    const form = document.getElementById("post-tweet");
-    const userpk = form.dataset.userpk;
+    const form = document.querySelector("form");
+    const userpk = document.querySelector(".tweets-container")?.dataset.userpk;
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     try {
+        console.log(`${form?.dataset.deleteurl.replace("0", pk)}`);
         const response = await fetch(`${form?.dataset.deleteurl.replace("0", pk)}`, {
             method: "DELETE",
             body: JSON.stringify({
@@ -192,5 +190,13 @@ function deleteTweetModal(pk) {
     })
 }
 
+function setFormBehaviour() {
+    const form = document.querySelector("form")
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+    })
+}
+
 showTweets();
+setFormBehaviour();
 postTweet();

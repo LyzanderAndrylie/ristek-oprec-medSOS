@@ -15,7 +15,6 @@
     <div class="feature-container">
         <form id="post-tweet" method="POST" class="flex flex-wrap justify-center gap-4 mb-8"
             data-posturl="{% url 'tweet_api:add_tweet' %}"
-            data-userpk="{{ user.pk }}"
             data-deleteurl = "{% url 'tweet_api:delete_tweet' pk=0 %}">
             {% csrf_token %}
             <textarea placeholder="What's happening?" name="content" cols="30" rows="8"
@@ -28,8 +27,9 @@
         </form>
     </div>
 
-    <div class="tweets-container flex justify-center">
-        <div id="tweets" class="flex flex-col gap-4 w-[520px]" data-gettweeturl="{% url 'tweet_api:view_tweets' %}"
+    <div class="tweets-container flex justify-center" data-userpk="{{ user.pk }}">
+        <div id="tweets" class="flex flex-col gap-4 w-[520px]" 
+            data-gettweeturl="{% url 'tweet_api:view_tweets' %}"
             data-getuserurl="{% url 'authentication_feature:user_data' pk=0 %}">
         </div>
     </div>
