@@ -18,12 +18,12 @@ async function getUserDataFromPk(pk) {
     return data;
 }
 
-
-function addTweetPost(tweet, userData) {
+async function addTweetPost(tweet) {
     const tweetContainer = document.getElementById("tweets");
+    const userData = await getUserDataFromPk(tweet.user);
 
-    if (tweetContainer) {
-        tweetContainer.innerHTML += `
+    tweetContainer?.insertAdjacentHTML("beforeend",
+        `
         <div class="tweet-post border p-4">
             <div class="information flex flex-wrap gap-4 mb-4">
                 <div class="profile-picture">
@@ -43,17 +43,43 @@ function addTweetPost(tweet, userData) {
             </div>
         </div>
         `
-    }
+    )
 }
 
+async function addNewTweetPost(tweet) {
+    const tweetContainer = document.getElementById("tweets");
+    const userData = await getUserDataFromPk(tweet.user);
+
+    tweetContainer?.insertAdjacentHTML("afterbegin",
+        `
+        <div class="tweet-post border p-4">
+            <div class="information flex flex-wrap gap-4 mb-4">
+                <div class="profile-picture">
+                    <a href="${userData.profile_path}">
+                        <img src="${userData.avatar_path}" width="30" class="rounded-full">
+                    </a>
+                </div>
+                <div class="profile-name">
+                    <a href="${userData.profile_path}">
+                        ${userData.username}
+                    </a>
+                </div>
+                <div class="date">${tweet.post_date}</div>
+            </div>
+            <div class="message max-w-[520px]">
+                ${tweet.content}
+            </div>
+        </div>
+        `
+    )
+}
 
 async function showTweets() {
     try {
         const data = await getTweets();
 
         for (const tweet of data) {
-            const userData = await getUserDataFromPk(tweet.user);
-            addTweetPost(tweet, userData);
+            await addTweetPost(tweet);
         }
 
     } catch (error) {
@@ -66,7 +92,7 @@ async function postTweet() {
 
     form?.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
         const userpk = form.dataset.userpk;
         const content = document.querySelector("[name='content']").value;
@@ -84,12 +110,14 @@ async function postTweet() {
                 },
             });
             const data = await response.json();
-            
+            await addNewTweetPost(data);
+
             // TODO: remove
             console.log(data);
         } catch (error) {
         }
     });
 }
+
 showTweets();
 postTweet();
