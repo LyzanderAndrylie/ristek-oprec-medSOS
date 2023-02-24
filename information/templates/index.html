@@ -50,9 +50,13 @@
     <div id="edit-modal-container" class=" bg-slate-800 bg-opacity-50 flex justify-center items-center fixed inset-0">
         <div class="bg-white px-16 py-14 rounded-md text-center">
             <h1 class="text-xl mb-4 font-bold text-slate-500">Edit Tweet?</h1>
-            <button id="edit-cancel-button" class="bg-red-500 px-4 py-2 rounded-md text-md text-white">Cancel</button>
-            <button id="edit-ok-button"
-                class="bg-indigo-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold">Ok</button>
+            <div class="edit-container mb-4">
+                <textarea name="content" cols="30" rows="8" class="text-black rounded p-2" required></textarea>
+            </div>
+            <div class="buttons">
+                <button id="edit-cancel-button" class="bg-red-500 px-4 py-2 rounded-md text-md text-white">Cancel</button>
+                <button id="edit-ok-button" class="bg-indigo-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold">Ok</button>
+            </div>
         </div>
     </div>
 </div>

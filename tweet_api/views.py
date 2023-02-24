@@ -51,7 +51,7 @@ def view_tweets(request):
 
 @api_view(['POST'])
 def edit_tweet(request, pk):
-    if request.user.pk == request.data["user"]:
+    if str(request.user.pk) == request.data["user"]:
         tweet = Tweet.objects.get(pk=pk)
         data = TweetSerializer(instance=tweet, data=request.data)
 
