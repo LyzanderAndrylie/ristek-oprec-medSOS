@@ -248,14 +248,13 @@ function editTweetModal(pk) {
     const cancelButton = document.getElementById("edit-cancel-button");
     const okButton = document.getElementById("edit-ok-button");
 
-    const textarea = document.querySelector("#edit-modal textarea");
-    textarea.defaultValue = document.querySelector(`.tweet-post[data-id="${pk}"] .message`).innerText;
-
     openModalButton?.addEventListener("click", (e) => {
         modal?.classList.remove("hidden");
-        okButton?.addEventListener("click", async () => {
-            await editTweet(e.target.dataset.id, textarea.value);
-        }, { once: true });
+        const textarea = document.querySelector("#edit-modal textarea");
+        textarea.value = document.querySelector(`.tweet-post[data-id="${pk}"] .message`).innerText;
+        okButton.onclick = async () => {
+                await editTweet(e.target.dataset.id, textarea.value);
+        }, { once: true }
     });
 
     cancelButton?.addEventListener("click", () => {
