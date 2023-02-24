@@ -1,21 +1,20 @@
-const URL = {
+const TWEET_URL = {
     getTweets: "/api/tweet/all/",
-    getTweetsWithParam: (param) => {
-        return `/api/tweet/all/?${param}`
-    },
+    getTweetsWithParam: (param) => `/api/tweet/all/?${param}`,
     postTweet: "/api/tweet/create/",
-    deleteTweet: "/api/tweet/delete/0/",
-    userData: "/user-data/0/",
+    deleteTweet: (pk) => `/api/tweet/delete/${pk}/`,
+    userData: (pk) => `/user-data/${pk}/`,
+    editTweet: (pk) => `api/tweet/edit/${pk}/`
 }
 
 async function getTweets() {
-    const param = document.getElementById("tweets").dataset.param
+    const param = document.getElementById("tweets")?.dataset.param
     let getURL;
 
     if (param) {
-        getURL = URL.getTweetsWithParam(param);
+        getURL = TWEET_URL.getTweetsWithParam(param);
     } else {
-        getURL = URL.getTweets;
+        getURL = TWEET_URL.getTweets;
     }
 
     const response = await fetch(getURL, {
@@ -28,7 +27,7 @@ async function getTweets() {
 }
 
 async function getUserDataFromPk(pk) {
-    const response = await fetch(`${URL.userData.replace("0", pk)}`, {
+    const response = await fetch(`${TWEET_URL.userData(pk)}`, {
         method: "GET"
     });
     const data = await response.json();
@@ -108,7 +107,7 @@ function createDeleteAndEditButton(tweet) {
     deleteButton.textContent = "Delete"
     deleteButton.classList.add("border", "p-1", "open-modal");
     deleteButton.setAttribute("data-id", tweet.id);
-    information.insertAdjacentElement("beforeend", deleteButton);
+    information?.insertAdjacentElement("beforeend", deleteButton);
 
     deleteTweetModal(tweet.id);
 }
@@ -137,7 +136,7 @@ async function postTweet() {
         const content = document.querySelector("[name='content']").value;
 
         try {
-            const response = await fetch(`${URL.postTweet}`, {
+            const response = await fetch(`${TWEET_URL.postTweet}`, {
                 method: "POST",
                 body: JSON.stringify({
                     "user": userpk,
@@ -161,7 +160,7 @@ async function deleteTweet(pk) {
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     try {
-        const response = await fetch(`${URL.deleteTweet.replace("0", pk)}`, {
+        const response = await fetch(`${TWEET_URL.deleteTweet(pk)}`, {
             method: "DELETE",
             body: JSON.stringify({
                 "user": userpk,
@@ -173,9 +172,9 @@ async function deleteTweet(pk) {
         });
 
         if (response.status === 202) {
-            document.querySelector(`.tweet-post[data-id="${pk}"]`).remove();
-            const modal = document.getElementById("modal");
-            modal.classList.add("hidden");
+            document.querySelector(`.tweet-post[data-id="${pk}"]`)?.remove();
+            const modal = document.getElementById("delete-modal");
+            modal?.classList.add("hidden");
         }
     } catch (error) {
         console.log(error);
@@ -183,33 +182,85 @@ async function deleteTweet(pk) {
 }
 
 function deleteTweetModal(pk) {
-    const modal = document.getElementById("modal")
-    const modalContainer = document.getElementById("modal-container")
+    const modal = document.getElementById("delete-modal")
+    const modalContainer = document.getElementById("delete-modal-container")
     const openModalButton = document.querySelector(`[data-id="${pk}"] .open-modal`);
-    const cancelButton = document.getElementById("cancel-button")
-    const okButton = document.getElementById("ok-button")
+    const cancelButton = document.getElementById("delete-cancel-button")
+    const okButton = document.getElementById("delete-ok-button")
 
-    openModalButton.addEventListener("click", (e) => {
-        modal.classList.remove("hidden");
-        okButton.addEventListener("click", async () => {
+    openModalButton?.addEventListener("click", (e) => {
+        modal?.classList.remove("hidden");
+        okButton?.addEventListener("click", async () => {
             await deleteTweet(e.target.dataset.id);
         }, { once: true });
     })
 
-    cancelButton.addEventListener("click", () => {
-        modal.classList.add("hidden");
+    cancelButton?.addEventListener("click", () => {
+        modal?.classList.add("hidden");
     })
 
     window.addEventListener("click", (e) => {
         if (e.target == modalContainer) {
-            modal.classList.add("hidden");
+            modal?.classList.add("hidden");
+        }
+    })
+}
+
+async function editTweet(pk) {
+    const form = document.querySelector("form");
+    const userpk = document.querySelector(".tweets-container")?.dataset.userpk;
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    try {
+        const response = await fetch(`${TWEET_URL.deleteTweet(pk)}`, {
+            method: "DELETE",
+            body: JSON.stringify({
+                "user": userpk,
+            }),
+            headers: {
+                'X-CSRFToken': csrftoken,
+                'Content-Type': 'application/json'
+            },
+        });
+
+        if (response.status === 202) {
+            document.querySelector(`.tweet-post[data-id="${pk}"]`)?.remove();
+            const modal = document.getElementById("delete-modal");
+            modal?.classList.add("hidden");
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function editTweetModal(pk) {
+    const modal = document.getElementById("edit-modal")
+    const modalContainer = document.getElementById("edit-modal-container")
+    const openModalButton = document.querySelector(`[data-id="${pk}"] .open-modal`);
+    const cancelButton = document.getElementById("edit-cancel-button")
+    const okButton = document.getElementById("edit-ok-button")
+
+    openModalButton?.addEventListener("click", (e) => {
+        modal?.classList.remove("hidden");
+        okButton?.addEventListener("click", async () => {
+            await editTweet(e.target.dataset.id);
+        }, { once: true });
+    })
+
+    cancelButton?.addEventListener("click", () => {
+        modal?.classList.add("hidden");
+    })
+
+    window.addEventListener("click", (e) => {
+        if (e.target == modalContainer) {
+            modal?.classList.add("hidden");
         }
     })
 }
 
 function setFormBehaviour() {
     const form = document.querySelector("form")
-    form.addEventListener("submit", (e) => {
+    form?.addEventListener("submit", (e) => {
         e.preventDefault();
     })
 }
