@@ -74,21 +74,21 @@ async function addNewTweetPost(tweet) {
 
     tweetContainer?.insertAdjacentHTML("afterbegin",
         `
-        <div class="tweet-post border p-4" data-id="${tweet.id}">
-            <div class="information flex flex-wrap gap-4 mb-4">
+        <div class="tweet-post p-4 bg-gradient-to-b from-cyan-900 to-slate-900 rounded-lg mb-4 min-h-[150px] drop-shadow-[0_2px_4px_#C5E0EB]" data-id="${tweet.id}">
+            <div class="information flex flex-wrap items-center gap-2 mb-4">
                 <div class="profile-picture">
                     <a href="${userData.profile_path}">
                         <img src="${userData.avatar_path}" width="30" class="rounded-full">
                     </a>
                 </div>
-                <div class="profile-name">
+                <div class="profile-name font-bold">
                     <a href="${userData.profile_path}">
                         ${userData.username}
                     </a>
                 </div>
-                <div class="date mr-auto">${tweet.post_date}</div>
+                <div class="date mr-auto text-sm text-slate-300">${day}-${month}-${year}</div>
             </div>
-            <div class="message max-w-[520px] mb-4">
+            <div class="message max-w-[520px] secondary-font mb-4">
                 ${tweet.content}
             </div>
         </div>
