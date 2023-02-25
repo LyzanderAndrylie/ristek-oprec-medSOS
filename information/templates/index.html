@@ -20,16 +20,16 @@
         <form id="post-tweet" method="POST" class="flex flex-wrap justify-center gap-4 mb-8">
             {% csrf_token %}
             <textarea placeholder="What's happening?" name="content" cols="30" rows="8"
-                class="bg-primary-color rounded p-2" required></textarea>
+                class="bg-primary-color text-white border-cyan-200 rounded p-2 drop-shadow-[0_1px_6px_#C5E0EB]" required></textarea>
             <div class="buttons flex flex-col gap-4 grow max-w-[250px] justify-end">
-                <button class="border p-2">Edit Close Friends</button>
-                <button type="submit" id="submit" class="border p-2">Post</button>
+                <button class="border p-2 font-semibold bg-white text-black rounded-lg drop-shadow-[0_4px_8px_#C5E0EB] hover:bg-slate-800 hover:text-white">Edit Close Friends</button>
+                <button type="submit" id="submit" class="border p-2 font-semibold bg-white text-black rounded-lg drop-shadow-[0_4px_8px_#C5E0EB] hover:bg-slate-800 hover:text-white">Post</button>
             </div>
         </form>
     </div>
 
     <div class="tweets-container flex justify-center" data-userpk="{{ user.pk }}">
-        <div id="tweets" class="flex flex-col gap-4 w-[520px]"></div>
+        <div id="tweets" class="flex flex-col gap-4 w-[540px]"></div>
     </div>
 </div>
 
@@ -37,7 +37,7 @@
 <div id="delete-modal" class="hidden">
     <div id="delete-modal-container" class=" bg-slate-800 bg-opacity-50 flex justify-center items-center fixed inset-0">
         <div class="bg-white px-16 py-14 rounded-md text-center">
-            <h1 class="text-xl mb-4 font-bold text-slate-500">Do you Want Delete Tweet?</h1>
+            <h1 class="text-xl mb-4 font-bold text-gray-700">Do you Want Delete Tweet?</h1>
             <button id="delete-cancel-button" class="bg-red-500 px-4 py-2 rounded-md text-md text-white">Cancel</button>
             <button id="delete-ok-button"
                 class="bg-indigo-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold">Ok</button>
@@ -49,7 +49,7 @@
 <div id="edit-modal" class="hidden">
     <div id="edit-modal-container" class=" bg-slate-800 bg-opacity-50 flex justify-center items-center fixed inset-0">
         <div class="bg-white px-16 py-14 rounded-md text-center">
-            <h1 class="text-xl mb-4 font-bold text-slate-500">Edit Tweet?</h1>
+            <h1 class="text-xl mb-4 font-bold text-gray-700">Edit Tweet?</h1>
             <div class="edit-container mb-4">
                 <textarea name="content" cols="30" rows="8" class="text-black rounded p-2" required></textarea>
             </div>

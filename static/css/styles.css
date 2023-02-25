@@ -1,0 +1,17 @@
+@font-face {
+    font-family: PlusJakarta;
+    src: url("/static/fonts/PlusJakartaSans-Regular.ttf");
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url("/static/fonts/Poppins-Regular.ttf");
+}
+
+.primary-font {
+    font-family: Poppins;
+}
+
+.secondary-font {
+    font-family: PlusJakarta;
+}

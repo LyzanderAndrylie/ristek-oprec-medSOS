@@ -1,3 +1,4 @@
+{% load static %}
 {% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
@@ -7,17 +8,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% tailwind_css %}
-    <script src="https://cdn.tailwindcss.com" async></script>
-    {% block meta %} {% endblock meta %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <style>
         .dropdown:hover .dropdown-menu {
             display: block;
         }
     </style>
+
+    <script src="https://cdn.tailwindcss.com" async></script>
+    {% block meta %} {% endblock meta %}
 </head>
 
-
-<body class="min-h-screen bg-primary-color text-white font-sans">
+<body class="min-h-screen bg-primary-color text-white primary-font">
     <div id="header" class="flex justify-between items-center px-8 py-4">
         <div class="logo-container flex items-center gap-4">
             <div class="logo"><a href="{% url 'information:index' %}"><svg width="31" height="50" viewBox="0 0 31 50"
@@ -27,38 +29,38 @@
                             fill="white" />
                     </svg>
                 </a></div>
-            <div class="name font-bold text-xl"><a href="{% url 'information:index' %}">RISTEK MedSOS</a></div>
+            <div class="name font-bold text-2xl"><a href="{% url 'information:index' %}">RISTEK MedSOS</a></div>
         </div>
         <div class="profile-container flex items-center gap-4">
             {% if user.is_active %}
-            <div class="profile-picture"><a
+            <div class="profile-picture max-sm:hidden"><a
                     href="{% url 'authentication_feature:profile_page' username=user.username %}"><img
                         src="{{ user.profile.avatar.url }}" alt="avatar" class="rounded-full" width="30"></a></div>
-            <div class="profile-name"><a
+            <div class="profile-name text-lg max-sm:hidden"><a
                     href="{% url 'authentication_feature:profile_page' username=user.username %}">{{ user.username }}</a></div>
 
             <!-- Component is created by M.Appelman (https://codepen.io/huphtur/pen/ordMeN) -->
             <div class="dropdown inline-block relative">
-                <button class="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
+                <button class="bg-white text-gray-700 font-semibold py-2 px-4 mr-3 rounded inline-flex items-center">
                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                     </svg>
                 </button>
                 <ul class="dropdown-menu absolute hidden text-gray-700 pt-1">
-                    <li class=""><a class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
+                    <li class=""><a class="rounded-t bg-white hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
                             href="{% url 'authentication_feature:profile_page' username=user.username %}">Profile</a>
                     </li>
-                    <li class=""><a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
+                    <li class=""><a class="bg-white hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
                             href="{% url 'authentication_feature:edit_profile_page' username=user.username %}">Edit
                             Profile</a></li>
-                    <li class=""><a class="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
+                    <li class=""><a class="rounded-b bg-red-500 text-white hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
                             href="{% url 'authentication_feature:logout' %}">Logout</a></li>
                 </ul>
             </div>
 
             {% else %}
-            <div class="register"><a href="{% url 'authentication_feature:register_page' %}">Register</a></div>
-            <div class="register"><a href="{% url 'authentication_feature:login_page' %}">Login</a></div>
+            <div class="register text-lg"><a href="{% url 'authentication_feature:register_page' %}">Register</a></div>
+            <div class="login text-lg"><a href="{% url 'authentication_feature:login_page' %}">Login</a></div>
             {% endif %}
         </div>
     </div>
