@@ -7,20 +7,22 @@
 {% endblock meta %}
 
 {% block content %}
-<div id="edit-profile" class="border flex justify-center items-center min-h-[60vh]">
-    <form id="login-form" method="post" class="border p-4"
+<div id="edit-profile" class="flex justify-center items-center min-h-[60vh] p-8">
+    <form id="login-form" method="post" class="p-4 bg-gradient-to-b from-cyan-900 to-slate-900 rounded-lg mb-4 min-h-[150px] drop-shadow-[0_2px_4px_#C5E0EB]"
         data-posturl="{% url 'authentication_feature:update_profile_ajax' username=user.username %}"
         data-redirecturl="{% url 'authentication_feature:profile_page' username=user.username %}">
         {% csrf_token %}
-        <div class="avatar">
+        <div class="mb-4 text-center text-3xl font-bold">Edit Profile</div>
+        <div class="avatar mb-4">
             <label for="username">Change Avatar</label><br>
             {{ update_profile_form.avatar }}
         </div>
-        <div class="bio">
+        <div class="bio mb-4">
             <label for="password">Change bio</label><br>
             {{ update_profile_form.bio }}
         </div>
-        <button type="submit" id="submit">Update</button>
+        <button type="submit" id="submit"
+            class="block mx-auto grow p-2 max-w-[100px] font-semibold bg-white text-black text-center rounded-lg drop-shadow-[0_4px_8px_#C5E0EB] hover:bg-slate-800 hover:text-white">Update</button>
     </form>
 </div>
 {% endblock content %}

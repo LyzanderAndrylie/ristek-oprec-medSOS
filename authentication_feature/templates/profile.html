@@ -8,8 +8,8 @@
 {% endblock meta %}
 
 {% block content %}
-<div id="profile" class="flex justify-center border min-h-[80vh]">
-    <div class="profile-container border p-4 w-[750px] shrink">
+<div id="profile" class="flex justify-center min-h-[80vh] p-8">
+    <div class="profile-container p-4 w-[750px] shrink">
         <div class="user-profile flex flex-wrap justify-between items-center gap-4 mb-4">
             <div class="flex justify-between items-center gap-4">
                 <div class="image"><img src="{{ profile_user.profile.avatar.url }}" alt="avatar" class="rounded-full"
@@ -18,10 +18,10 @@
             </div>
             {% if active_user %}
             <a href="{% url 'authentication_feature:edit_profile_page' username=user.username %}"
-                class="border grow p-2 max-w-[100px] text-center">Edit Profile</a>
+                class="grow p-2 max-w-[100px] font-semibold bg-white text-black text-center rounded-lg drop-shadow-[0_4px_8px_#C5E0EB] hover:bg-slate-800 hover:text-white">Edit Profile</a>
             {% endif %}
         </div>
-        <div class="bio p-4 border max-w-[768px] min-h-[128px] mb-4">
+        <div class="bio p-4 max-w-[768px] min-h-[128px] mb-4">
             {{ profile_user.profile.bio|default:"Nothing in bio yet" }}
         </div>
         <div class="tweets-container flex justify-center" data-userpk="{{ user.pk }}">

@@ -7,19 +7,21 @@
 {% endblock meta %}
 
 {% block content %}
-<div id="login" class="border flex justify-center items-center min-h-[60vh]">
-    <form id="login-form" method="post" class="border p-4"
+<div id="login" class="flex flex-col justify-center items-center min-h-[60vh] p-8">
+    <form id="login-form" method="post" class="p-4 bg-gradient-to-b from-cyan-900 to-slate-900 rounded-lg mb-4 min-h-[150px] drop-shadow-[0_2px_4px_#C5E0EB]"
         data-posturl="{% url 'authentication_feature:login_ajax' %}" data-redirecturl="{% url 'information:index' %}">
         {% csrf_token %}
-        <div class="username">
+        <div class="font-bold text-3xl text-center mb-4">Login</div>
+        <div class="username mb-4">
             <label for="username">Username</label><br>
-            <input type="text" name="username" placeholder="Username" class="text-black">
+            <input type="text" name="username" placeholder="Username" class="bg-primary-color rounded-lg">
         </div>
-        <div class="password">
+        <div class="password mb-4">
             <label for="password">Password</label><br>
-            <input type="password" name="password" placeholder="Password" class="text-black">
+            <input type="password" name="password" placeholder="Password" class="bg-primary-color rounded-lg">
         </div>
-        <button type="submit" id="submit">Login</button>
+        <button type="submit" id="submit"
+            class="block mx-auto grow p-2 max-w-[100px] font-semibold bg-white text-black text-center rounded-lg drop-shadow-[0_4px_8px_#C5E0EB] hover:bg-slate-800 hover:text-white">Login</button>
     </form>
 </div>
 {% endblock content %}

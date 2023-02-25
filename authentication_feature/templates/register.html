@@ -7,24 +7,26 @@
 {% endblock meta %}
 
 {% block content %}
-<div id="register" class="border flex justify-center items-center min-h-[60vh]">
-    <form id="register-form" method="post" class="border p-4"
+<div id="register" class="flex flex-col justify-center items-center min-h-[60vh] p-8">
+    <form id="register-form" method="post" class="p-4 bg-gradient-to-b from-cyan-900 to-slate-900 rounded-lg mb-4 min-h-[150px] drop-shadow-[0_2px_4px_#C5E0EB]"
         data-posturl="{% url 'authentication_feature:register_ajax' %}"
         data-redirecturl="{% url 'information:index' %}">
         {% csrf_token %}
-        <div class="username">
+        <div class="font-bold text-3xl text-center mb-4">Register</div>
+        <div class="username mb-4">
             <label for="{{ form.username.id_for_label }}">Username</label><br>
-            <span class="text-black">{{ form.username }}</span>
+            <input type="text" name="username" maxlength="150" autocapitalize="none" autocomplete="username" autofocus="" required="" id="id_username" class="bg-primary-color rounded-lg">
         </div>
-        <div class="password1">
+        <div class="password1 mb-4">
             <label for="{{ form.password1.id_for_label }}">Password</label><br>
-            <span class="text-black">{{ form.password1 }}</span>
+            <input type="password" name="password1" autocomplete="new-password" required="" id="id_password1" class="bg-primary-color rounded-lg">
         </div>
-        <div class="password2">
+        <div class="password2 mb-4">
             <label for="{{ form.password2.id_for_label }}">Password Confirmation</label><br>
-            <span class="text-black">{{ form.password2 }}</span>
+            <input type="password" name="password2" autocomplete="new-password" required="" id="id_password2" class="bg-primary-color rounded-lg">
         </div>
-        <button type="submit" id="submit">Register</button>
+        <button type="submit" id="submit"
+        class="block mx-auto grow p-2 max-w-[100px] font-semibold bg-white text-black text-center rounded-lg drop-shadow-[0_4px_8px_#C5E0EB] hover:bg-slate-800 hover:text-white">Register</button>
     </form>
 </div>
 {% endblock content %}

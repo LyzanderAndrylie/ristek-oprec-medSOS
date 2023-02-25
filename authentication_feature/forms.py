@@ -8,7 +8,7 @@ class UpdateProfileForm(forms.ModelForm):
     avatar = forms.ImageField(widget=forms.FileInput(
         attrs={'class': ''}))
     bio = forms.CharField(widget=forms.Textarea(
-        attrs={'class': 'text-black', 'rows': 5}))
+        attrs={'class': 'bg-primary-color text-white border-cyan-200 rounded p-2', 'rows': 5}))
 
     class Meta:
         model = Profile
