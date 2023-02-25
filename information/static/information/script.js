@@ -71,6 +71,10 @@ async function addNewTweetPost(tweet) {
     const tweetContainer = document.getElementById("tweets");
     const userData = await getUserDataFromPk(tweet.user);
     const userpk = document.querySelector(".tweets-container")?.dataset.userpk;
+    let date = new Date(tweet.post_date);
+    let day = date.getDate();
+    let month = date.getMonth();
+    let year = date.getFullYear();
 
     tweetContainer?.insertAdjacentHTML("afterbegin",
         `
@@ -163,6 +167,7 @@ async function postTweet() {
                 },
             });
             const data = await response.json();
+            console.log(data);
             await addNewTweetPost(data);
         } catch (error) {
         }
@@ -205,7 +210,7 @@ function deleteTweetModal(pk) {
     openModalButton?.addEventListener("click", (e) => {
         modal?.classList.remove("hidden");
         okButton?.addEventListener("click", async () => {
-            await deleteTweet(e.target.dataset.id);
+            await deleteTweet(openModalButton.dataset.id);
         }, { once: true });
     });
 
@@ -259,7 +264,7 @@ function editTweetModal(pk) {
         const textarea = document.querySelector("#edit-modal textarea");
         textarea.value = document.querySelector(`.tweet-post[data-id="${pk}"] .message`).innerText;
         okButton.onclick = async () => {
-            await editTweet(e.target.dataset.id, textarea.value);
+            await editTweet(openModalButton.dataset.id, textarea.value);
         }, { once: true }
     });
 
