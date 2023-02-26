@@ -21,6 +21,10 @@ def ApiOverview(request):
 
 @api_view(['POST'])
 def add_tweet(request):
+    print(request.data)
+    if request.data["user"] == "None":
+        return Response({"message": "User must login before posting tweet"}, status=status.HTTP_404_NOT_FOUND)
+
     if str(request.user.pk) == request.data["user"]:
         tweet = TweetSerializer(data=request.data)
     

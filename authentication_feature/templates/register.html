@@ -12,7 +12,7 @@
         data-posturl="{% url 'authentication_feature:register_ajax' %}"
         data-redirecturl="{% url 'information:index' %}">
         {% csrf_token %}
-        <div class="font-bold text-3xl text-center mb-4">Register</div>
+        <div class="font-bold text-3xl text-center mb-6">Register</div>
         <div class="username mb-4">
             <label for="{{ form.username.id_for_label }}">Username</label><br>
             <input type="text" name="username" maxlength="150" autocapitalize="none" autocomplete="username" autofocus="" required="" id="id_username" class="bg-primary-color rounded-lg">

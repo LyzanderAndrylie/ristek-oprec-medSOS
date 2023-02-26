@@ -1,34 +1,67 @@
-const form = document.querySelector("form");
+function setLoginForm() {
+    const form = document.querySelector("form");
 
-form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-    try {
-        const response = await fetch(form?.dataset.posturl, {
-            method: "POST",
-            body: new FormData(form),
-        })
-    
-        const data = await response.json();
-        console.log(data);
+        try {
+            const response = await fetch(form?.dataset.posturl, {
+                method: "POST",
+                body: new FormData(form),
+            })
 
-        if (response.status === 200) {
-            location.assign(form?.dataset.redirecturl);
-        } else {
-            document.getElementById("message")?.remove();
-            const div = document.getElementById("login") ?? document.getElementById("register");
-            div.insertAdjacentHTML("afterbegin", `
-                <div id="message" class="mb-4 p-4 font-bold text-white bg-red-300 rounded-lg">Detail:<br>${data.message}</div>
-            `)
+            const data = await response.json();
+            console.log(data);
+
+            if (response.status === 200) {
+                location.assign(form?.dataset.redirecturl);
+            } else {
+            addMessage(data.message, "login")
+            }
+
+        } catch (error) {
+            addMessage(error, "login");
         }
-        
-    } catch (error) {
-        console.log(error);
-        document.getElementById("message")?.remove();
-        const div = document.getElementById("login") ?? document.getElementById("register");
-            div.insertAdjacentHTML("afterbegin", `
-                <div class="mb-4 p-4 font-bold text-white bg-red-300 rounded-lg">Detail:<br>${error}</div>
-            `)
-    }
 
-})
+    })
+}
+
+function setRegisterForm() {
+    const form = document.getElementById("register-form");
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch(form?.dataset.posturl, {
+                method: "POST",
+                body: new FormData(form),
+            })
+
+            const data = await response.json();
+
+            console.log(data);
+
+            if (response.status === 200) {
+                location.assign(form?.dataset.redirecturl);
+            } else {
+                addMessage(data.message, "register");
+            }
+
+        } catch (error) {
+            addMessage(error, "register");
+        }
+
+    })
+}
+
+function addMessage(errorMessage, id) {
+    document.getElementById("message")?.remove();
+    const div = document.getElementById(id);
+    div.insertAdjacentHTML("afterbegin", `
+                <div id="message" class="mb-4 p-4 font-bold text-white bg-red-300 rounded-lg max-w-[320px]">Detail:<br>${errorMessage}</div>
+            `)
+}
+
+setLoginForm();
+setRegisterForm();

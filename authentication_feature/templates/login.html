@@ -11,7 +11,7 @@
     <form id="login-form" method="post" class="p-4 bg-gradient-to-b from-cyan-900 to-slate-900 rounded-lg mb-4 min-h-[150px] drop-shadow-[0_2px_4px_#C5E0EB]"
         data-posturl="{% url 'authentication_feature:login_ajax' %}" data-redirecturl="{% url 'information:index' %}">
         {% csrf_token %}
-        <div class="font-bold text-3xl text-center mb-4">Login</div>
+        <div class="font-bold text-3xl text-center mb-6">Login</div>
         <div class="username mb-4">
             <label for="username">Username</label><br>
             <input type="text" name="username" placeholder="Username" class="bg-primary-color rounded-lg">

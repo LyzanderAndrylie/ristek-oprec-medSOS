@@ -29,7 +29,7 @@ def register_ajax(request):
         else:
             return JsonResponse({
                 "status": False,
-                "message": form.errors.as_json()
+                "message": form.errors.as_text()
             }, status=401)
 
     return JsonResponse({
@@ -118,7 +118,7 @@ def update_profile_ajax(request, username):
         else:
             return JsonResponse({
                 "status": False,
-                "message": profile_form.errors.as_json
+                "message": profile_form.errors.as_text()
             }, status=401)
 
     return JsonResponse({

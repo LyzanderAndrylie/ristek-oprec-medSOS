@@ -167,9 +167,14 @@ async function postTweet() {
                 },
             });
             const data = await response.json();
-            console.log(data);
-            await addNewTweetPost(data);
+
+            if (response.status === 404) {
+                alert(data.message);
+            } else {
+                await addNewTweetPost(data);
+            }
         } catch (error) {
+            alert(error);
         }
     });
 }
