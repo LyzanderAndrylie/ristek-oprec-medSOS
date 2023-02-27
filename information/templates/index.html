@@ -22,8 +22,21 @@
             <textarea placeholder="What's happening?" name="content" cols="30" rows="8"
                 class="bg-primary-color text-white border-cyan-200 rounded p-2 drop-shadow-[0_1px_6px_#C5E0EB]" required></textarea>
             <div class="buttons flex flex-col gap-4 grow max-w-[250px] justify-end">
-                <button class=" p-2 font-semibold bg-white text-black rounded-lg drop-shadow-[0_4px_8px_#C5E0EB] hover:bg-slate-800 hover:text-white">Edit Close Friends</button>
+                {% if user.is_active %}
+                <button type="button" class="open-close-friend-modal p-2 font-semibold bg-white text-black rounded-lg drop-shadow-[0_4px_8px_#C5E0EB] hover:bg-slate-800 hover:text-white">Edit Close Friends</button>
+                {% endif %}
                 <button type="submit" id="submit" class="p-2 font-semibold bg-white text-black rounded-lg drop-shadow-[0_4px_8px_#C5E0EB] hover:bg-slate-800 hover:text-white">Post</button>
+                <div class="option flex items-center justify-evenly">
+                    <div class="public">
+                        <input type="radio" name="post-type" value="True" id="public" checked>
+                        <label for="public">Public</label>
+                    </div>
+                    <div class="close-friend">
+                        <input type="radio" name="post-type" value="False" id="close-friend">
+                        <label for="close-friend">Close Friend</label>
+                    </div>
+                </div>
+
             </div>
         </form>
     </div>
@@ -56,6 +69,21 @@
             <div class="buttons">
                 <button id="edit-cancel-button" class="bg-red-500 px-4 py-2 rounded-md text-md text-white">Cancel</button>
                 <button id="edit-ok-button" class="bg-indigo-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Close Friend Modal -->
+<div id="close-friend-modal" class="hidden">
+    <div id="close-friend-container" class=" bg-slate-800 bg-opacity-50 flex justify-center items-center fixed inset-0">
+        <div class="bg-white px-16 py-14 rounded-md text-center">
+            <h1 class="text-xl mb-4 font-bold text-gray-700">Edit Close Friends</h1>
+            <div id="close-friend-list" class="h-32 overflow-y-scroll text-justify mb-4">
+            </div>
+            <div class="buttons">
+                <button id="close-friend-cancel-button" class="bg-red-500 px-4 py-2 rounded-md text-md text-white">Cancel</button>
+                <button id="close-friend-ok-button" class="bg-indigo-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold">Ok</button>
             </div>
         </div>
     </div>

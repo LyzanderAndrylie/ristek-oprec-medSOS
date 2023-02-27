@@ -132,11 +132,84 @@ def user_data(request, pk):
         user = User.objects.get(pk=pk)
         user_data = {"username": user.username,
                      "avatar_path": user.profile.avatar.url,
-                     "profile_path":reverse("authentication_feature:profile_page", args=(user.username,))}
+                     "profile_path": reverse("authentication_feature:profile_page", args=(user.username,))}
         return JsonResponse(user_data, status=200)
 
     else:
         return JsonResponse({
             "status": False,
             "message": "User doesn't exist."
+        }, status=401)
+
+
+def add_close_friends(request, pk):
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            "status": False,
+            "message": "User must login first before modify close friends"
+        }, status=401)
+    
+    if request.method == "POST":
+        users = User.objects.filter(pk__in=request.POST.getlist("id"))
+        request.user.profile.close_friends.add(*users)
+        request.user.profile.save()
+
+        return JsonResponse({
+            "status": True,
+            "message": "Add close friend success"
+        }, status=200)
+    else:
+        return JsonResponse({
+            "status": False,
+            "message": "Failed to add close friend."
+        }, status=401)
+
+
+def remove_close_friends(request, pk):
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            "status": False,
+            "message": "User must login first before modify close friends"
+        }, status=401)
+    
+    if request.method == "POST":
+        users = User.objects.filter(pk__in=request.POST.getlist("id"))
+        request.user.profile.close_friends.remove(*users)
+        request.user.profile.save()
+
+        return JsonResponse({
+            "status": True,
+            "message": "Add close friend success"
+        }, status=200)
+
+  
+    else:
+        return JsonResponse({
+            "status": False,
+            "message": "Failed to remove close friend."
+        }, status=401)
+
+def get_friends(request, pk):
+    if request.user.pk == pk:
+        close_friends = request.user.profile.close_friends.all().order_by('username')
+
+        friends_data = {"close_friends": [], "friends": []}
+
+        for close_friend in close_friends:
+            if not close_friend.pk == request.user.pk:
+                friends_data["close_friends"].append([close_friend.username, close_friend.pk])
+
+        non_close_friends = User.objects.exclude(pk__in=close_friends).order_by('username')
+
+        for friend in non_close_friends:
+            friends_data["friends"].append([friend.username, friend.pk])
+
+        return JsonResponse({
+            "status": True,
+            "message": friends_data
+        }, status=200)
+    else:
+        return JsonResponse({
+            "status": False,
+            "message": "User doesn't have access."
         }, status=401)

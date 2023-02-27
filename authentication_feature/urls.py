@@ -13,5 +13,8 @@ urlpatterns = [
     path('profile/<str:username>/', profile_page, name='profile_page'),
     path('profile/<str:username>/edit', edit_profile_page, name='edit_profile_page'),
     path('profile/<str:username>/update', update_profile_ajax, name='update_profile_ajax'),
-    path('user-data/<int:pk>/', user_data, name='user_data')
+    path('user-data/<int:pk>/', user_data, name='user_data'),
+    path('add-close-friends/<int:pk>/', add_close_friends, name='add_close_friends'),
+    path('remove-close-friends/<int:pk>/', remove_close_friends, name='remove_close_friends'),
+    path('get-friends/<int:pk>/', get_friends, name='get_close_friend'),
 ]

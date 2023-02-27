@@ -4,7 +4,15 @@ const TWEET_URL = {
     postTweet: "/api/tweet/create/",
     deleteTweet: (pk) => `/api/tweet/delete/${pk}/`,
     userData: (pk) => `/user-data/${pk}/`,
-    editTweet: (pk) => `/api/tweet/edit/${pk}/`
+    editTweet: (pk) => `/api/tweet/edit/${pk}/`,
+    getFriends: (pk) => `/get-friends/${pk}/`,
+    addCloseFriend: (pk) => `/add-close-friends/${pk}/`,
+    removeCloseFriend: (pk) => `/remove-close-friends/${pk}/`
+}
+
+const FRIENDS = {
+    closeFriends : [],
+    friends : [],
 }
 
 async function getTweets() {
@@ -223,11 +231,11 @@ function deleteTweetModal(pk) {
         modal?.classList.add("hidden");
     });
 
-    window.addEventListener("click", (e) => {
+    window.onclick = (e) => {
         if (e.target == modalContainer) {
             modal?.classList.add("hidden");
         }
-    });
+    };
 }
 
 async function editTweet(pk, content) {
@@ -277,11 +285,151 @@ function editTweetModal(pk) {
         modal?.classList.add("hidden");
     });
 
-    window.addEventListener("click", (e) => {
+    window.onclick = (e) => {
         if (e.target == modalContainer) {
             modal?.classList.add("hidden");
         }
+    };
+}
+
+async function updateFriend(pk) {
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const formDataAddCloseFriend = new FormData();
+    FRIENDS.closeFriends.forEach((friend) => {
+        formDataAddCloseFriend.append("id", friend);
+    })
+
+    const formDataRemoveCloseFriend = new FormData();
+    FRIENDS.friends.forEach((friend) => {
+        formDataRemoveCloseFriend.append("id", friend);
+    })
+
+    try {
+        console.log(FRIENDS.closeFriends);
+        console.log(FRIENDS.friends);
+        const responseAdd = await fetch(`${TWEET_URL.addCloseFriend(pk)}`, {
+            method: "POST",
+            body: formDataAddCloseFriend,
+            headers: {
+                'X-CSRFToken': csrftoken,
+            },
+        });
+
+        const responseRemove = await fetch(`${TWEET_URL.removeCloseFriend(pk)}`, {
+            method: "POST",
+            body: formDataRemoveCloseFriend,
+            headers: {
+                'X-CSRFToken': csrftoken,
+            },
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function closeFriendModal() {
+    const modal = document.getElementById("close-friend-modal");
+    const modalContainer = document.getElementById("close-friend-container");
+    const openModalButton = document.querySelector(`.open-close-friend-modal`);
+    const cancelButton = document.getElementById("close-friend-cancel-button");
+    const okButton = document.getElementById("close-friend-ok-button");
+    const userpk = document.querySelector(".tweets-container")?.dataset.userpk;
+
+    openModalButton?.addEventListener("click", () => {
+        modal?.classList.remove("hidden");
     });
+
+    cancelButton?.addEventListener("click", () => {
+        modal?.classList.add("hidden");
+    });
+
+    okButton?.addEventListener("click", async () => {
+        await updateFriend(userpk);
+        modal?.classList.add("hidden");
+    })
+
+    window.onclick = (e) => {
+        if (e.target == modalContainer) {
+            modal?.classList.add("hidden");
+        }
+    };
+}
+
+async function getFriendsFromPk(pk) {
+    const response = await fetch(TWEET_URL.getFriends(pk), {
+        method: "GET",
+    });
+
+    const data = await response.json();
+    return data;
+}
+
+async function addOptionToCloseFriendModal() {
+    const divList = document.getElementById("close-friend-list");
+    const userpk = document.querySelector(".tweets-container")?.dataset.userpk;
+    const response = await getFriendsFromPk(userpk);
+
+    const closeFriendsList = response.message.close_friends;
+    const friendsList = response.message.friends;
+
+    addCloseFriendOption(closeFriendsList, divList);
+    addFriendOption(friendsList, divList);
+}
+
+function addCloseFriendOption(list, div) {    
+    for (const closeFriend of list) {
+        const username = closeFriend[0];
+        const pk = closeFriend[1];
+
+        div.insertAdjacentHTML("beforeend", `
+        <div class="option">
+            <input type="checkbox" id="${username}" name="${username}" data-pk=${pk} checked>
+            <label for="${username}" class="text-black">${username}</label>
+        </div>
+        `)
+
+        FRIENDS.closeFriends.push(pk);
+
+        const input = document.getElementById(username);
+        input.addEventListener("change", (e) => {
+            if (e.target.checked) {
+                FRIENDS.friends.splice(FRIENDS.friends.indexOf(pk), 1)
+                FRIENDS.closeFriends.push(pk);
+            } else {
+                FRIENDS.closeFriends.splice(FRIENDS.closeFriends.indexOf(pk), 1)
+                FRIENDS.friends.push(pk);
+            }
+        });
+    }
+}
+
+function addFriendOption(list, div) {
+    for (const friend of list) {
+        const username = friend[0];
+        const pk = friend[1];
+
+        div.insertAdjacentHTML("beforeend", `
+        <div class="option">
+            <input type="checkbox" id="${username}" name="${username}" data-pk=${pk}>
+            <label for="${username}" class="text-black">${username}</label>
+        </div>
+        `)
+
+        FRIENDS.friends.push(pk);
+
+        const input = document.getElementById(username);
+        input.addEventListener("change", (e) => {
+            if (e.target.checked) {
+                FRIENDS.friends.splice(FRIENDS.friends.indexOf(pk), 1);
+                FRIENDS.closeFriends.push(pk);
+            } else {
+                FRIENDS.closeFriends.splice(FRIENDS.closeFriends.indexOf(pk), 1)
+                FRIENDS.friends.push(pk);
+            }
+        });
+    }
+
 }
 
 function setFormBehaviour() {
@@ -294,3 +442,5 @@ function setFormBehaviour() {
 showTweets();
 setFormBehaviour();
 postTweet();
+closeFriendModal();
+addOptionToCloseFriendModal();

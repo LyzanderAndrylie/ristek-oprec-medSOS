@@ -10,11 +10,13 @@ class Profile(models.Model):
     avatar = models.ImageField(
         default='default.jpg', upload_to='profile_images')
     bio = models.TextField()
+    close_friends = models.ManyToManyField(User, related_name="close_friends")
 
     def __str__(self):
         return self.user.username
 
     def save(self, *args, **kwargs):
+        self.close_friends.add(self.user)
         super().save()
 
         img = Image.open(self.avatar.path)
