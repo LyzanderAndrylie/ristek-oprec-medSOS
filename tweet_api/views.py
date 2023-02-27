@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import serializers
@@ -21,7 +22,6 @@ def ApiOverview(request):
 
 @api_view(['POST'])
 def add_tweet(request):
-    print(request.data)
     if request.data["user"] == "None":
         return Response({"message": "User must login before posting tweet"}, status=status.HTTP_404_NOT_FOUND)
 
@@ -42,10 +42,17 @@ def add_tweet(request):
 def view_tweets(request):
     # checking for the parameters from the URL
     if request.query_params:
-        tweets = Tweet.objects.filter(**request.query_params.dict()).order_by('-post_date')
+        if request.user.is_authenticated:
+            tweets = Tweet.objects.filter(Q(is_public=True) | Q(user__profile__close_friends=request.user), **request.query_params.dict()).distinct()
+        else:
+            tweets = Tweet.objects.filter(is_public=True, **request.query_params.dict())
     else:
-        tweets = Tweet.objects.all().order_by('-post_date')
-    
+        if request.user.is_authenticated:
+            tweets = Tweet.objects.filter(Q(is_public=True) |  Q(user__profile__close_friends=request.user)).distinct()
+        else:
+            tweets = Tweet.objects.filter(is_public=True)
+
+
     # if there is something in items else raise error
     if tweets:
         serializer = TweetSerializer(tweets, many=True)
@@ -67,7 +74,6 @@ def edit_tweet(request, pk):
 
 @api_view(['DELETE'])
 def delete_tweet(request, pk):
-    print(request.data)
     if str(request.user.pk) == request.data["user"]:
         tweet = get_object_or_404(Tweet, pk=pk)
         tweet.delete()

@@ -11,8 +11,8 @@ const TWEET_URL = {
 }
 
 const FRIENDS = {
-    closeFriends : [],
-    friends : [],
+    closeFriends: [],
+    friends: [],
 }
 
 async function getTweets() {
@@ -24,7 +24,7 @@ async function getTweets() {
     });
 
     const data = await response.json();
-
+    console.log(data);
     return data;
 }
 
@@ -39,78 +39,89 @@ async function getUserDataFromPk(pk) {
 
 async function addTweetPost(tweet) {
     const tweetContainer = document.getElementById("tweets");
-    const userData = await getUserDataFromPk(tweet.user);
-    const userpk = document.querySelector(".tweets-container")?.dataset.userpk;
-    let date = new Date(tweet.post_date);
-    let day = date.getDate();
-    let month = date.getMonth();
-    let year = date.getFullYear();
 
-    tweetContainer?.insertAdjacentHTML("beforeend",
-        `
-        <div class="tweet-post p-4 bg-gradient-to-b from-cyan-900 to-slate-900 rounded-lg mb-4 min-h-[150px] drop-shadow-[0_2px_4px_#C5E0EB]" data-id="${tweet.id}">
-            <div class="information flex flex-wrap items-center gap-2 mb-4">
-                <div class="profile-picture">
-                    <a href="${userData.profile_path}">
-                        <img src="${userData.avatar_path}" width="30" class="rounded-full">
-                    </a>
+    try {
+        const userData = await getUserDataFromPk(tweet.user);
+        const userpk = document.querySelector(".tweets-container")?.dataset.userpk;
+        let date = new Date(tweet.post_date);
+        let day = date.getDate();
+        let month = date.getMonth();
+        let year = date.getFullYear();
+    
+        tweetContainer?.insertAdjacentHTML("beforeend",
+            `
+            <div class="tweet-post p-4 bg-gradient-to-b ${(tweet.is_public) ? "from-cyan-900" : "from-green-900"} to-slate-900 rounded-lg mb-4 min-h-[150px] ${(tweet.is_public) ? "drop-shadow-[0_2px_4px_#C5E0EB]" : "drop-shadow-[0_2px_4px_#8FFFB8]"}" data-id="${tweet.id}">
+                <div class="information flex flex-wrap items-center gap-2 mb-4">
+                    <div class="profile-picture">
+                        <a href="${userData.profile_path}">
+                            <img src="${userData.avatar_path}" width="30" class="rounded-full">
+                        </a>
+                    </div>
+                    <div class="profile-name font-bold">
+                        <a href="${userData.profile_path}">
+                            ${userData.username}
+                        </a>
+                    </div>
+                    <div class="date mr-auto text-sm text-slate-300">${day}-${month}-${year} ${(tweet.modified) ? "(edited)" : ""}</div>
                 </div>
-                <div class="profile-name font-bold">
-                    <a href="${userData.profile_path}">
-                        ${userData.username}
-                    </a>
+                <div class="message max-w-[520px] secondary-font mb-4">
+                    ${tweet.content}
                 </div>
-                <div class="date mr-auto text-sm text-slate-300">${day}-${month}-${year}</div>
             </div>
-            <div class="message max-w-[520px] secondary-font mb-4">
-                ${tweet.content}
-            </div>
-        </div>
-        `
-    );
-
-    if (tweet.user === +userpk) {
-        createDeleteButton(tweet);
-        createEditButton(tweet);
+            `
+        );
+    
+        if (tweet.user === +userpk) {
+            createDeleteButton(tweet);
+            createEditButton(tweet);
+        }
+    } catch (error) {
+        alert(error);
     }
 }
 
 async function addNewTweetPost(tweet) {
     const tweetContainer = document.getElementById("tweets");
-    const userData = await getUserDataFromPk(tweet.user);
-    const userpk = document.querySelector(".tweets-container")?.dataset.userpk;
-    let date = new Date(tweet.post_date);
-    let day = date.getDate();
-    let month = date.getMonth();
-    let year = date.getFullYear();
 
-    tweetContainer?.insertAdjacentHTML("afterbegin",
-        `
-        <div class="tweet-post p-4 bg-gradient-to-b from-cyan-900 to-slate-900 rounded-lg mb-4 min-h-[150px] drop-shadow-[0_2px_4px_#C5E0EB]" data-id="${tweet.id}">
-            <div class="information flex flex-wrap items-center gap-2 mb-4">
-                <div class="profile-picture">
-                    <a href="${userData.profile_path}">
-                        <img src="${userData.avatar_path}" width="30" class="rounded-full">
-                    </a>
+    try {
+        const userData = await getUserDataFromPk(tweet.user);
+        const userpk = document.querySelector(".tweets-container")?.dataset.userpk;
+        let date = new Date(tweet.post_date);
+        let day = date.getDate();
+        let month = date.getMonth();
+        let year = date.getFullYear();
+    
+        tweetContainer?.insertAdjacentHTML("afterbegin",
+            `
+                <div class="tweet-post p-4 bg-gradient-to-b ${(tweet.is_public) ? "from-cyan-900" : "from-green-900"} to-slate-900 rounded-lg mb-4 min-h-[150px] ${(tweet.is_public) ? "drop-shadow-[0_2px_4px_#C5E0EB]" : "drop-shadow-[0_2px_4px_#8FFFB8]"}" data-id="${tweet.id}">
+                <div class="information flex flex-wrap items-center gap-2 mb-4">
+                        <div class="profile-picture">
+                            <a href="${userData.profile_path}">
+                                <img src="${userData.avatar_path}" width="30" class="rounded-full">
+                            </a>
+                        </div>
+                        <div class="profile-name font-bold">
+                            <a href="${userData.profile_path}">
+                                ${userData.username}
+                            </a>
+                        </div>
+                        <div class="date mr-auto text-sm text-slate-300">${day}-${month}-${year}</div>
+                    </div>
+                    <div class="message max-w-[520px] secondary-font mb-4">
+                        ${tweet.content}
+                    </div>
                 </div>
-                <div class="profile-name font-bold">
-                    <a href="${userData.profile_path}">
-                        ${userData.username}
-                    </a>
-                </div>
-                <div class="date mr-auto text-sm text-slate-300">${day}-${month}-${year}</div>
-            </div>
-            <div class="message max-w-[520px] secondary-font mb-4">
-                ${tweet.content}
-            </div>
-        </div>
-        `
-    );
-
-    if (tweet.user === +userpk) {
-        createDeleteButton(tweet);
-        createEditButton(tweet);
+                `
+        );
+    
+        if (tweet.user === +userpk) {
+            createDeleteButton(tweet);
+            createEditButton(tweet);
+        }
+    } catch (error) {
+        alert(error);
     }
+
 }
 
 function createDeleteButton(tweet) {
@@ -148,7 +159,7 @@ async function showTweets() {
         }
 
     } catch (error) {
-        console.log(error);
+        alert(error);
     }
 }
 
@@ -161,13 +172,15 @@ async function postTweet() {
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
         const userpk = document.querySelector(".tweets-container")?.dataset.userpk;
         const content = document.querySelector("[name='content']").value;
+        const public = document.getElementById("public").checked;
 
         try {
             const response = await fetch(`${TWEET_URL.postTweet}`, {
                 method: "POST",
                 body: JSON.stringify({
                     "user": userpk,
-                    "content": content
+                    "content": content,
+                    "is_public": public
                 }),
                 headers: {
                     'X-CSRFToken': csrftoken,
@@ -209,7 +222,7 @@ async function deleteTweet(pk) {
             modal?.classList.add("hidden");
         }
     } catch (error) {
-        console.log(error);
+        alert(error);
     }
 }
 
@@ -257,11 +270,14 @@ async function editTweet(pk, content) {
 
         if (response.status === 200) {
             document.querySelector(`.tweet-post[data-id="${pk}"] .message`).innerText = content;
+            if (!document.querySelector(`.tweet-post[data-id="${pk}"] .date`).innerText.includes("(edited)")) {
+                document.querySelector(`.tweet-post[data-id="${pk}"] .date`).innerText += " (edited)";
+            }
             const modal = document.getElementById("edit-modal");
             modal?.classList.add("hidden");
         }
     } catch (error) {
-        console.log(error);
+        alert(error);
     }
 }
 
@@ -305,8 +321,6 @@ async function updateFriend(pk) {
     })
 
     try {
-        console.log(FRIENDS.closeFriends);
-        console.log(FRIENDS.friends);
         const responseAdd = await fetch(`${TWEET_URL.addCloseFriend(pk)}`, {
             method: "POST",
             body: formDataAddCloseFriend,
@@ -324,7 +338,7 @@ async function updateFriend(pk) {
         });
 
     } catch (error) {
-        console.log(error);
+        alert(error);
     }
 }
 
@@ -368,16 +382,21 @@ async function getFriendsFromPk(pk) {
 async function addOptionToCloseFriendModal() {
     const divList = document.getElementById("close-friend-list");
     const userpk = document.querySelector(".tweets-container")?.dataset.userpk;
-    const response = await getFriendsFromPk(userpk);
 
-    const closeFriendsList = response.message.close_friends;
-    const friendsList = response.message.friends;
-
-    addCloseFriendOption(closeFriendsList, divList);
-    addFriendOption(friendsList, divList);
+    try {        
+        const response = await getFriendsFromPk(userpk);
+    
+        const closeFriendsList = response.message.close_friends;
+        const friendsList = response.message.friends;
+    
+        addCloseFriendOption(closeFriendsList, divList);
+        addFriendOption(friendsList, divList);
+    } catch (error) {
+        alert(error);
+    }
 }
 
-function addCloseFriendOption(list, div) {    
+function addCloseFriendOption(list, div) {
     for (const closeFriend of list) {
         const username = closeFriend[0];
         const pk = closeFriend[1];

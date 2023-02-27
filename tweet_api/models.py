@@ -10,11 +10,11 @@ class Tweet(models.Model):
     is_public = models.BooleanField(default=True)
 
     class Meta:
-        ordering = ["post_date"]
+        ordering = ["-post_date"]
 
     def __str__(self) -> str:
         return f"{self.user.username}: {self.content}"
 
     @property
     def modified(self):
-        return self.post_date == self.last_modified_date
+        return self.post_date != self.last_modified_date
