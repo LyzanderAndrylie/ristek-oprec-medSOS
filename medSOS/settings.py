@@ -147,4 +147,4 @@ NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-CSRF_TRUSTED_ORIGINS = [f'https://ristek-medsos-lyzander.up.railway.app/']
+CSRF_TRUSTED_ORIGINS = [f'https://ristek-medsos-lyzander.up.railway.app']
