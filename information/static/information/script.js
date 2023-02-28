@@ -195,7 +195,7 @@ async function postTweet() {
             const data = await response.json();
 
             if (response.status === 404) {
-                console.log(data.message);
+                alert(data.message);
             } else {
                 await addNewTweetPost(data);
             }
@@ -465,8 +465,13 @@ function setFormBehaviour() {
     })
 }
 
+// Get Tweet
 showTweets();
+
+// Post Tweet
 setFormBehaviour();
 postTweet();
+
+// Close Friend
 closeFriendModal();
 addOptionToCloseFriendModal();
