@@ -9,6 +9,8 @@ Deployment:
 
 ## Cara menjalankan pada Local Environment
 
+Pastikan bahwa Python dan pip sudah ter-install pada komputer kalian.
+
 1. Clone repository
 
     ```cmd
