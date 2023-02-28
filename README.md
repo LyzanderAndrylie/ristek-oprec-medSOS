@@ -2,6 +2,9 @@
 
 MedSOS adalah website media sosial sederhana yang memungkinkan pengguna untuk membuat, mengedit, dan menghapus tweet. Selain itu, pengguna harus membuat akun terlebih dahulu agar bisa  membuat, mengedit, dan menghapus tweet ke publik atau teman dekat saja.
 
+Deployment:
+:link: <https://ristek-medsos-lyzander.up.railway.app/>
+
 > Tugas ini dibuat untuk memenuhi Open Recruitment Assignment | RISTEK 2023
 
 ## Cara menjalankan pada Local Environment
