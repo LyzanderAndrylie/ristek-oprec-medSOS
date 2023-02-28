@@ -61,7 +61,7 @@ async function addTweetPost(tweet) {
                             ${userData.username}
                         </a>
                     </div>
-                    <div class="date mr-auto text-sm text-slate-300">${day}-${month}-${year} ${(tweet.modified) ? "(edited)" : ""}</div>
+                    <div class="date mr-auto text-sm text-slate-300">${day}-${month}-${year} ${(String(tweet.modified) === "true") ? "(edited)" : ""}</div>
                 </div>
                 ${(!tweet.is_public) ? `
                         <div class="mb-4 bg-green-500 py-0.5 px-1 w-fit rounded-lg">Close Friend</div>
