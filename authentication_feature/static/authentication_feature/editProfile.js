@@ -1,5 +1,5 @@
-function setLoginForm() {
-    const form = document.querySelector("login-form");
+function setEditProfileForm() {
+    const form = document.getElementById("edit-profile-form");
 
     form?.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -26,35 +26,6 @@ function setLoginForm() {
     })
 }
 
-function setRegisterForm() {
-    const form = document.getElementById("register-form");
-
-    form?.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        try {
-            const response = await fetch(form?.dataset.posturl, {
-                method: "POST",
-                body: new FormData(form),
-            })
-
-            const data = await response.json();
-
-            console.log(data);
-
-            if (response.status === 200) {
-                location.assign(form?.dataset.redirecturl);
-            } else {
-                addMessage(data.message, "register");
-            }
-
-        } catch (error) {
-            addMessage(error, "register");
-        }
-
-    })
-}
-
 function addMessage(errorMessage, id) {
     document.getElementById("message")?.remove();
     const div = document.getElementById(id);
@@ -63,5 +34,4 @@ function addMessage(errorMessage, id) {
             `)
 }
 
-setLoginForm();
-setRegisterForm();
+setEditProfileForm();

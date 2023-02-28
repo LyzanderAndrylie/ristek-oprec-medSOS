@@ -2,13 +2,13 @@
 {% load static %}
 
 {% block meta %}
-<title>RISTEK MedSOS - Login</title>
-<script src="{% static 'authentication_feature/script.js' %}" defer></script>
+<title>RISTEK MedSOS - Edit Profile</title>
+<script src="{% static 'authentication_feature/editProfile.js' %}" defer></script>
 {% endblock meta %}
 
 {% block content %}
 <div id="edit-profile" class="flex justify-center items-center min-h-[60vh] p-8">
-    <form id="login-form" method="post" class="p-4 bg-gradient-to-b from-cyan-900 to-slate-900 rounded-lg mb-4 min-h-[150px] drop-shadow-[0_2px_4px_#C5E0EB]"
+    <form id="edit-profile-form" method="post" class="p-4 bg-gradient-to-b from-cyan-900 to-slate-900 rounded-lg mb-4 min-h-[150px] drop-shadow-[0_2px_4px_#C5E0EB]"
         data-posturl="{% url 'authentication_feature:update_profile_ajax' username=user.username %}"
         data-redirecturl="{% url 'authentication_feature:profile_page' username=user.username %}">
         {% csrf_token %}

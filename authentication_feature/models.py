@@ -16,8 +16,8 @@ class Profile(models.Model):
         return self.user.username
 
     def save(self, *args, **kwargs):
-        self.close_friends.add(self.user)
         super().save()
+        self.close_friends.add(self.user)
 
         img = Image.open(self.avatar.path)
 
