@@ -63,6 +63,9 @@ async function addTweetPost(tweet) {
                     </div>
                     <div class="date mr-auto text-sm text-slate-300">${day}-${month}-${year} ${(tweet.modified) ? "(edited)" : ""}</div>
                 </div>
+                ${(!tweet.is_public) ? `
+                        <div class="mb-4 bg-green-500 py-0.5 px-1 w-fit rounded-lg">Close Friend</div>
+                    ` : ""}
                 <div class="message max-w-[520px] secondary-font mb-4">
                     ${tweet.content}
                 </div>
@@ -106,6 +109,9 @@ async function addNewTweetPost(tweet) {
                         </div>
                         <div class="date mr-auto text-sm text-slate-300">${day}-${month}-${year}</div>
                     </div>
+                    ${(!tweet.is_public) ? `
+                        <div class="mb-4 bg-green-500 py-0.5 px-1 w-fit rounded-lg">Close Friend</div>
+                    ` : ""}
                     <div class="message max-w-[520px] secondary-font mb-4">
                         ${tweet.content}
                     </div>
