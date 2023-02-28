@@ -19,9 +19,12 @@ class Profile(models.Model):
         super().save()
         self.close_friends.add(self.user)
 
-        img = Image.open(self.avatar.path)
+        try:
+            img = Image.open(self.avatar.path)
 
-        if img.height > 100 or img.width > 100:
-            new_img = (100, 100)
-            img.thumbnail(new_img)
-            img.save(self.avatar.path)
+            if img.height > 100 or img.width > 100:
+                new_img = (100, 100)
+                img.thumbnail(new_img)
+                img.save(self.avatar.path)
+        except:
+            pass
